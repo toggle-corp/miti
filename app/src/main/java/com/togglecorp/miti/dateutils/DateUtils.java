@@ -1,6 +1,7 @@
 package com.togglecorp.miti.dateutils;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Nepali date conversion utilities and database.
@@ -168,4 +169,13 @@ public class DateUtils {
         }
         return null;
     }
+
+
+    public static String getEnglishMonth(int month) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.clear();
+        calendar.set(Calendar.MONTH, month - 1);
+        return calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault());
+    }
+
 }

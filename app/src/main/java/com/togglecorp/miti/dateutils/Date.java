@@ -1,6 +1,7 @@
 package com.togglecorp.miti.dateutils;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Simple Date class to store the tuple (year, month, day).
@@ -85,4 +86,5 @@ public class Date {
     public String toString() {
         return String.format("%04d-%02d-%02d", year, month, day);
     }
+
 }
