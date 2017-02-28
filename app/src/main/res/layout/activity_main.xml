@@ -10,10 +10,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="144dp">
 
         <!-- Header -->
         <LinearLayout
+            android:id="@+id/header"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="160dp"
@@ -35,12 +37,25 @@
                     android:textSize="21sp"
                     android:text="@string/app_name_nepali"/>
 
-                <TextView
-                    android:id="@+id/today"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="फाल्गुण १७, २०७३"/>
+                    android:gravity="end|center">
+
+                    <TextView
+                        android:id="@+id/today"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:text="फाल्गुण १७, २०७३"/>
+
+                    <ImageButton
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="16dp"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/ic_settings"/>
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -54,7 +69,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/ic_chevron_left"/>
+                    android:src="@drawable/ic_chevron_left"
+                    android:onClick="previousMonth"/>
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -84,7 +100,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/ic_chevron_right"/>
+                    android:src="@drawable/ic_chevron_right"
+                    android:onClick="nextMonth"/>
 
             </LinearLayout>
 
@@ -95,7 +112,7 @@
         <android.support.v4.view.ViewPager
             android:id="@+id/month_pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
 
     </LinearLayout>
 
@@ -108,13 +125,69 @@
         android:background="@android:color/transparent"
         android:orientation="vertical"
         app:layout_behavior="@string/bottom_sheet_behavior"
-        app:behavior_peekHeight="250dp">
+        app:behavior_peekHeight="144dp">
 
         <View
             android:id="@+id/bottom_sheet_padding"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="3dp"
             android:clickable="true"/>
+
+        <LinearLayout
+            android:id="@+id/tithi_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:elevation="16dp"
+            android:outlineProvider="bounds"
+            android:background="@android:color/background_light">
+
+            <TextView
+                android:id="@+id/tithi_day"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:gravity="center"
+                android:textSize="21sp"
+                android:text="१"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="51dp"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/tithi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="4dp"
+                        android:textSize="10dp"
+                        android:text="सप्तमी"/>
+
+                    <TextView
+                        android:id="@+id/tithi_extra"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="4dp"
+                        android:textSize="10dp"
+                        android:text="तराई होलि"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_gravity="bottom"
+                    android:background="@color/colorAccent"/>
+            </LinearLayout>
+
+        </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/tithi_list_view"

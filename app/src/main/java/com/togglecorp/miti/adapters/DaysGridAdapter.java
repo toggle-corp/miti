@@ -1,5 +1,6 @@
 package com.togglecorp.miti.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,18 +14,19 @@ import com.togglecorp.miti.dateutils.Date;
 import com.togglecorp.miti.dateutils.DateUtils;
 import com.togglecorp.miti.dateutils.NepaliTranslator;
 import com.togglecorp.miti.helpers.ThemeUtils;
+import com.togglecorp.miti.ui.MainActivity;
 
 import java.util.Calendar;
 
 public class DaysGridAdapter extends RecyclerView.Adapter<DaysGridAdapter.ViewHolder> {
 
-    private Context mContext;
+    private Activity mActivity;
     private Date mDate;
     private Date mToday;
     private int mExtraDays;
 
-    public DaysGridAdapter(Context context) {
-        mContext = context;
+    public DaysGridAdapter(Activity activity) {
+        mActivity = activity;
     }
 
     public void setDate(Date date) {
@@ -45,7 +47,7 @@ public class DaysGridAdapter extends RecyclerView.Adapter<DaysGridAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(DaysGridAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(DaysGridAdapter.ViewHolder holder, final int position) {
         if (mDate == null) {
             holder.textView.setText("");
             return;
@@ -66,15 +68,25 @@ public class DaysGridAdapter extends RecyclerView.Adapter<DaysGridAdapter.ViewHo
         // Today
         if (mDate.year == mToday.year && mDate.month == mToday.month && position == mToday.day-1+mExtraDays) {
             holder.circle.setVisibility(View.VISIBLE);
-            holder.circle.setColorFilter(ThemeUtils.getThemeColor(mContext, R.attr.colorPrimary));
+            holder.circle.setColorFilter(ThemeUtils.getThemeColor(mActivity, R.attr.colorPrimary));
         } else {
             holder.circle.setVisibility(View.GONE);
         }
 
         // Satuday
         if (position%7 == 6) {
-            holder.textView.setTextColor(ThemeUtils.getThemeColor(mContext, R.attr.colorPrimary));
+            holder.textView.setTextColor(ThemeUtils.getThemeColor(mActivity, R.attr.colorPrimary));
         }
+
+        // Click
+        holder.root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (position >= mExtraDays) {
+                    ((MainActivity)mActivity).selectTithi(position - mExtraDays);
+                }
+            }
+        });
     }
 
     @Override
@@ -87,6 +99,7 @@ public class DaysGridAdapter extends RecyclerView.Adapter<DaysGridAdapter.ViewHo
     }
 
     protected class ViewHolder extends RecyclerView.ViewHolder {
+        protected View root;
         protected TextView textView;
         protected TextView textView2;
         protected ImageView circle;
@@ -96,6 +109,7 @@ public class DaysGridAdapter extends RecyclerView.Adapter<DaysGridAdapter.ViewHo
             textView = (TextView)itemView.findViewById(R.id.text_view);
             textView2 = (TextView)itemView.findViewById(R.id.text_view2);
             circle = (ImageView)itemView.findViewById(R.id.circle);
+            root = itemView;
         }
     }
 }

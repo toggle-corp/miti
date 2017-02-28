@@ -1,5 +1,7 @@
 package com.togglecorp.miti.ui;
 
+import android.content.res.Resources;
+import android.graphics.Point;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -10,8 +12,11 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.Pair;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.togglecorp.miti.R;
@@ -44,11 +49,13 @@ public class MainActivity extends AppCompatActivity {
                 new TithiGrabber(MainActivity.this).fetchData(new TithiGrabber.Listener() {
                     @Override
                     public void onNewDataFetched() {
-                        mMonthPagerAdapter.notifyDataSetChanged();
+                        if (mTithiListAdapter != null) {
+                            mTithiListAdapter.notifyDataSetChanged();
+                        }
                     }
                 });
             }
-        }, 5000);
+        }, 1000);
 
 
         // Tithi list view in bottom sheet
@@ -64,10 +71,13 @@ public class MainActivity extends AppCompatActivity {
         mMonthPager.addOnPageChangeListener(pagerChangeListener);
 
         // By default scroll to today's month
-        Date today = new Date(Calendar.getInstance()).convertToNepali();
-        mMonthPager.setCurrentItem(
-                (today.year - DateUtils.startNepaliYear) * 12 + (today.month - 1)
-        );
+        scrollToToday();
+        findViewById(R.id.today).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scrollToToday();
+            }
+        });
 
         setupBottomSheet();
 
@@ -113,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
             // Tithis
             if (mTithiListAdapter != null) {
                 mTithiListAdapter.setDate(year, month);
+                selectTithi(0);
             }
 
             // Month titles
@@ -145,40 +156,76 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-//    private float mBottomSheetTouchY;
     private void setupBottomSheet() {
         findViewById(R.id.bottom_sheet_padding).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 v.getParent().requestDisallowInterceptTouchEvent(true);
-                findViewById(R.id.month_pager).dispatchTouchEvent(event);
-                return true;
+                findViewById(R.id.header).dispatchTouchEvent(event);
+                return false;
             }
         });
-//        View bottomSheet = findViewById(R.id.bottom_sheet);
-//        bottomSheet.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                mBottomSheetTouchY = event.getY();
-//                return true;
-//            }
-//        });
-//
-//        final BottomSheetBehavior behavior = BottomSheetBehavior.from(bottomSheet);
-//        behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-//            @Override
-//            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-//                Log.d(TAG, newState+"");
-//                if (newState == BottomSheetBehavior.STATE_DRAGGING) {
-//                    behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-//                }
-//            }
-//
-//            @Override
-//            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-//
-//            }
-//        });
 
+        final BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.bottom_sheet));
+        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                findViewById(R.id.bottom_sheet_padding).setLayoutParams(
+                        new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                                (int)(slideOffset*dpToPixels(160-3)+dpToPixels(3)))
+                );
+            }
+        });
+
+    }
+
+    public void nextMonth(View view) {
+        mMonthPager.setCurrentItem(mMonthPager.getCurrentItem()+1);
+    }
+
+    public void previousMonth(View view) {
+        mMonthPager.setCurrentItem(mMonthPager.getCurrentItem()-1);
+    }
+
+    public void selectTithi(int position) {
+//        ((LinearLayoutManager)((RecyclerView)findViewById(R.id.tithi_list_view)).getLayoutManager())
+//                .scrollToPositionWithOffset(position, 0);
+
+        if (mTithiListAdapter == null) {
+            return;
+        }
+
+        try {
+            ((TextView)findViewById(R.id.tithi_day)).setText(NepaliTranslator.getNumber(mTithiListAdapter.getDate(position)+""));
+            Pair<String, String> tithi = mTithiListAdapter.getTithi(position);
+            ((TextView)findViewById(R.id.tithi)).setText(tithi.first);
+            ((TextView)findViewById(R.id.tithi_extra)).setText(tithi.second);
+
+            if (tithi.second.trim().length() == 0) {
+                findViewById(R.id.tithi_extra).setVisibility(View.GONE);
+            } else {
+                findViewById(R.id.tithi_extra).setVisibility(View.VISIBLE);
+            }
+
+            findViewById(R.id.tithi_header).setVisibility(View.VISIBLE);
+        } catch (Exception exception) {
+            findViewById(R.id.tithi_header).setVisibility(View.GONE);
+        }
+    }
+
+    public void scrollToToday() {
+        Date today = new Date(Calendar.getInstance()).convertToNepali();
+        mMonthPager.setCurrentItem(
+                (today.year - DateUtils.startNepaliYear) * 12 + (today.month - 1)
+        );
+    }
+
+    public int dpToPixels(int dp) {
+        Resources r = getResources();
+        return (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
     }
 }

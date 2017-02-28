@@ -1,5 +1,6 @@
 package com.togglecorp.miti.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,7 @@ import com.togglecorp.miti.dateutils.Date;
 import com.togglecorp.miti.dateutils.NepaliTranslator;
 import com.togglecorp.miti.dateutils.TithiDb;
 import com.togglecorp.miti.helpers.ThemeUtils;
+import com.togglecorp.miti.ui.MainActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,7 +24,7 @@ import java.util.List;
 
 public class TithiListAdapter extends RecyclerView.Adapter<TithiListAdapter.ViewHolder> {
 
-    private Context mContext;
+    private Activity mActivity;
     private TithiDb mTithiDb;
 
     private List<Integer> mDays = new ArrayList<>();
@@ -31,9 +33,9 @@ public class TithiListAdapter extends RecyclerView.Adapter<TithiListAdapter.View
 
     private boolean mNewDate = false;
 
-    public TithiListAdapter(Context context) {
-        mContext = context;
-        mTithiDb = new TithiDb(context);
+    public TithiListAdapter(Activity activity) {
+        mActivity = activity;
+        mTithiDb = new TithiDb(activity);
     }
 
     public void setDate(final int year, final int month) {
@@ -92,6 +94,9 @@ public class TithiListAdapter extends RecyclerView.Adapter<TithiListAdapter.View
 
             @Override
             protected void onPostExecute(Void reesult) {
+                if (mToday >= 0) {
+                    ((MainActivity)mActivity).selectTithi(mToday);
+                }
                 notifyDataSetChanged();
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -99,6 +104,13 @@ public class TithiListAdapter extends RecyclerView.Adapter<TithiListAdapter.View
 
     public int getTodayPosition() {
         return mToday;
+    }
+
+    public Integer getDate(int position) {
+        return mDays.get(position);
+    }
+    public Pair<String, String> getTithi(int position) {
+        return mTithis.get(position);
     }
 
     @Override
@@ -117,7 +129,7 @@ public class TithiListAdapter extends RecyclerView.Adapter<TithiListAdapter.View
 
         if (mToday == position) {
             holder.circle.setVisibility(View.VISIBLE);
-            holder.circle.setColorFilter(ThemeUtils.getThemeColor(mContext, R.attr.colorPrimary));
+            holder.circle.setColorFilter(ThemeUtils.getThemeColor(mActivity, R.attr.colorPrimary));
         } else {
             holder.circle.setVisibility(View.INVISIBLE);
         }
