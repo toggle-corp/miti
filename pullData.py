@@ -33,7 +33,7 @@ def map_value(num):
     ]
     val = []
     # 3 -> 03
-    val.append('0') if len(num) == 2 else None
+    val.append('0') if len(num) == 1 else None
     for i in range(0, len(num)):
         val.append(str(number.index(num[i])))
     return ''.join(val)
@@ -43,7 +43,7 @@ def pull_data_from_month(year, month):
     """
     Year and month integer
     """
-    html_page = requests.get(web_url+str(year)+'/'+str(month)+'/')
+    html_page = requests.get(web_url+str(year)+'/'+str(month)+'/', headers=headers)
     html_page.encoding = 'utf-8'
 
     if html_page.status_code is not 200:
