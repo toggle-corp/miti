@@ -87,4 +87,11 @@ public class Date {
         return String.format("%04d-%02d-%02d", year, month, day);
     }
 
+    public boolean equals(Date other) {
+        if (other == null) {
+            return false;
+        }
+        return year == other.year && month == other.month && day == other.day;
+    }
+
 }

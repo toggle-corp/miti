@@ -21,6 +21,7 @@ import com.togglecorp.miti.ui.MainActivity;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class TithiListAdapter extends RecyclerView.Adapter<TithiListAdapter.ViewHolder> {
 
@@ -61,7 +62,7 @@ public class TithiListAdapter extends RecyclerView.Adapter<TithiListAdapter.View
                             return null;
                         }
 
-                        String date = String.format("%04d-%02d-%02d", year, month, i);
+                        String date = String.format(Locale.US, "%04d-%02d-%02d", year, month, i);
                         Pair<String, String> tithi = mTithiDb.get(date);
 
                         if (tithi != null && !(tithi.first.equals("") && tithi.second.equals(""))) {
@@ -93,24 +94,10 @@ public class TithiListAdapter extends RecyclerView.Adapter<TithiListAdapter.View
             }
 
             @Override
-            protected void onPostExecute(Void reesult) {
-                if (mToday >= 0) {
-                    ((MainActivity)mActivity).selectTithi(mToday);
-                }
+            protected void onPostExecute(Void result) {
                 notifyDataSetChanged();
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-    }
-
-    public int getTodayPosition() {
-        return mToday;
-    }
-
-    public Integer getDate(int position) {
-        return mDays.get(position);
-    }
-    public Pair<String, String> getTithi(int position) {
-        return mTithis.get(position);
     }
 
     @Override
@@ -129,7 +116,7 @@ public class TithiListAdapter extends RecyclerView.Adapter<TithiListAdapter.View
 
         if (mToday == position) {
             holder.circle.setVisibility(View.VISIBLE);
-            holder.circle.setColorFilter(ThemeUtils.getThemeColor(mActivity, R.attr.colorPrimary));
+            holder.circle.setColorFilter(ThemeUtils.getThemeColor(mActivity, R.attr.colorAccent));
         } else {
             holder.circle.setVisibility(View.INVISIBLE);
         }

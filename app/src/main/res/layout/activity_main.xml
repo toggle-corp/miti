@@ -42,12 +42,15 @@
                     android:layout_height="wrap_content"
                     android:gravity="end|center">
 
-                    <TextView
+                    <Button
                         android:id="@+id/today"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/ic_empty_calendar"
                         android:layout_gravity="bottom"
-                        android:text="फाल्गुण १७, २०७३"/>
+                        android:gravity="center"
+                        android:textSize="9sp"
+                        android:text="१७"/>
 
                     <ImageButton
                         android:layout_width="18dp"
@@ -77,7 +80,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="6"
                     android:orientation="vertical"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:onClick="pickDate">
 
                     <TextView
                         android:id="@+id/nepali_title"
@@ -136,56 +140,82 @@
         <LinearLayout
             android:id="@+id/tithi_header"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:elevation="16dp"
+            android:layout_height="64dp"
+            android:orientation="vertical"
+            android:elevation="2dp"
             android:outlineProvider="bounds"
-            android:background="@android:color/background_light">
-
-            <TextView
-                android:id="@+id/tithi_day"
-                android:layout_width="52dp"
-                android:layout_height="52dp"
-                android:gravity="center"
-                android:textSize="21sp"
-                android:text="१"/>
+            android:theme="@style/AppToolbarTheme">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="72dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@color/colorPrimary">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/tithi_day"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="2dp"
+                            android:textSize="14sp"
+                            android:text="१"/>
+
+                        <TextView
+                            android:id="@+id/tithi_month"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="2dp"
+                            android:textSize="11sp"
+                            android:text="१"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tithi_year"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="१"/>
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="51dp"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="10dp"
                     android:orientation="vertical"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:background="@color/colorPrimaryDark">
 
-                    <TextView
-                        android:id="@+id/tithi"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="4dp"
-                        android:textSize="10dp"
-                        android:text="सप्तमी"/>
+                        <TextView
+                            android:id="@+id/tithi"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="4dp"
+                            android:textSize="10dp"
+                            android:text="सप्तमी"/>
 
-                    <TextView
-                        android:id="@+id/tithi_extra"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="4dp"
-                        android:textSize="10dp"
-                        android:text="तराई होलि"/>
+                        <TextView
+                            android:id="@+id/tithi_extra"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="4dp"
+                            android:textSize="10dp"
+                            android:text="तराई होलि"/>
                 </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_gravity="bottom"
-                    android:background="@color/colorAccent"/>
             </LinearLayout>
+
 
         </LinearLayout>
 
@@ -193,8 +223,6 @@
             android:id="@+id/tithi_list_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:elevation="16dp"
-            android:outlineProvider="bounds"
             android:background="@android:color/background_light"/>
 
     </LinearLayout>

@@ -1,7 +1,6 @@
 package com.togglecorp.miti.adapters;
 
 import android.app.Activity;
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,10 +46,19 @@ public class DaysGridAdapter extends RecyclerView.Adapter<DaysGridAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(DaysGridAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final DaysGridAdapter.ViewHolder holder, int position) {
         if (mDate == null) {
             holder.textView.setText("");
             return;
+        }
+
+        // Today
+        if (mDate.year == mToday.year && mDate.month == mToday.month && position == mToday.day-1+mExtraDays) {
+            holder.circle.setVisibility(View.VISIBLE);
+            holder.circle.setColorFilter(ThemeUtils.getThemeColor(mActivity, R.attr.colorAccent));
+
+        } else {
+            holder.circle.setVisibility(View.GONE);
         }
 
         // Fill in after the extra days
@@ -59,18 +67,16 @@ public class DaysGridAdapter extends RecyclerView.Adapter<DaysGridAdapter.ViewHo
             Date nepaliDate = new Date(mDate.year, mDate.month, dt);
             holder.textView.setText(NepaliTranslator.getNumber(dt+""));
             holder.textView2.setText(nepaliDate.convertToEnglish().day + "");
+
+            // Selected
+            if (nepaliDate.equals(((MainActivity)mActivity).getSelectedTithi())) {
+                holder.circle.setVisibility(View.VISIBLE);
+                holder.circle.setColorFilter(ThemeUtils.getThemeColor(mActivity, R.attr.colorPrimary));
+            }
+
         } else {
             holder.textView.setText("");
             holder.textView2.setText("");
-        }
-
-
-        // Today
-        if (mDate.year == mToday.year && mDate.month == mToday.month && position == mToday.day-1+mExtraDays) {
-            holder.circle.setVisibility(View.VISIBLE);
-            holder.circle.setColorFilter(ThemeUtils.getThemeColor(mActivity, R.attr.colorPrimary));
-        } else {
-            holder.circle.setVisibility(View.GONE);
         }
 
         // Satuday
@@ -78,12 +84,15 @@ public class DaysGridAdapter extends RecyclerView.Adapter<DaysGridAdapter.ViewHo
             holder.textView.setTextColor(ThemeUtils.getThemeColor(mActivity, R.attr.colorPrimary));
         }
 
-        // Click
+        // Click to select
         holder.root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (position >= mExtraDays) {
-                    ((MainActivity)mActivity).selectTithi(position - mExtraDays);
+                if (holder.getAdapterPosition() >= mExtraDays) {
+                    int dt = holder.getAdapterPosition() + 1 - mExtraDays;
+                    Date nepaliDate = new Date(mDate.year, mDate.month, dt);
+                    ((MainActivity)mActivity).selectTithi(nepaliDate);
+                    notifyDataSetChanged();
                 }
             }
         });

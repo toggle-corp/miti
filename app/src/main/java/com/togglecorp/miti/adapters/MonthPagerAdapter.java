@@ -26,4 +26,10 @@ public class MonthPagerAdapter extends FragmentStatePagerAdapter {
         return 12*91;
     }
 
+    @Override
+    public int getItemPosition(Object object) {
+        // POSITION_NONE makes it possible to reload the PagerAdapter
+        return POSITION_NONE;
+    }
+
 }

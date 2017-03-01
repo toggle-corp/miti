@@ -1,17 +1,13 @@
 package com.togglecorp.miti.ui;
 
 import android.content.res.Resources;
-import android.graphics.Point;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.Pair;
 import android.util.TypedValue;
 import android.view.MotionEvent;
@@ -25,6 +21,7 @@ import com.togglecorp.miti.adapters.TithiListAdapter;
 import com.togglecorp.miti.dateutils.Date;
 import com.togglecorp.miti.dateutils.DateUtils;
 import com.togglecorp.miti.dateutils.NepaliTranslator;
+import com.togglecorp.miti.dateutils.TithiDb;
 import com.togglecorp.miti.dateutils.TithiGrabber;
 
 import java.util.Calendar;
@@ -34,8 +31,10 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     private ViewPager mMonthPager;
-    private PagerAdapter mMonthPagerAdapter;
+    private MonthPagerAdapter mMonthPagerAdapter;
     private TithiListAdapter mTithiListAdapter;
+
+    private int mCurrentYear, mCurrentMonth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
                         if (mTithiListAdapter != null) {
                             mTithiListAdapter.notifyDataSetChanged();
                         }
+                        if (mMonthPagerAdapter != null) {
+                            mMonthPagerAdapter.notifyDataSetChanged();
+                        }
+                        selectTithi(mSelectedTithi);
                     }
                 });
             }
@@ -78,6 +81,10 @@ public class MainActivity extends AppCompatActivity {
                 scrollToToday();
             }
         });
+
+        // By default select today
+        selectTithi(new Date(Calendar.getInstance()).convertToNepali());
+
 
         setupBottomSheet();
 
@@ -123,7 +130,6 @@ public class MainActivity extends AppCompatActivity {
             // Tithis
             if (mTithiListAdapter != null) {
                 mTithiListAdapter.setDate(year, month);
-                selectTithi(0);
             }
 
             // Month titles
@@ -143,10 +149,10 @@ public class MainActivity extends AppCompatActivity {
 
             // Today
             Date today = new Date(Calendar.getInstance()).convertToNepali();
-            String todayStringNepali =  NepaliTranslator.getNumber(today.day+" ")
-                    + NepaliTranslator.getMonth(today.month) + ", "
-                    + NepaliTranslator.getNumber(today.year + "");
-            ((TextView)findViewById(R.id.today)).setText(todayStringNepali);
+            ((TextView)findViewById(R.id.today)).setText(NepaliTranslator.getNumber(today.day+""));
+
+            mCurrentYear = year;
+            mCurrentMonth = month;
         }
 
         @Override
@@ -184,24 +190,50 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void nextMonth(View view) {
-        mMonthPager.setCurrentItem(mMonthPager.getCurrentItem()+1);
+        mMonthPager.setCurrentItem(mMonthPager.getCurrentItem()+1, true);
     }
 
     public void previousMonth(View view) {
-        mMonthPager.setCurrentItem(mMonthPager.getCurrentItem()-1);
+        mMonthPager.setCurrentItem(mMonthPager.getCurrentItem()-1, true);
     }
 
-    public void selectTithi(int position) {
-//        ((LinearLayoutManager)((RecyclerView)findViewById(R.id.tithi_list_view)).getLayoutManager())
-//                .scrollToPositionWithOffset(position, 0);
+
+    private Date mSelectedTithi = null;
+    public void pickDate(View view) {
+        new YearMonthPicker(new YearMonthPicker.Listener() {
+            @Override
+            public void onSelect(int year, int month) {
+                mMonthPager.setCurrentItem(
+                        (year - DateUtils.startNepaliYear) * 12 + (month - 1), true
+                );
+            }
+        }, mCurrentYear, mCurrentMonth).show(getFragmentManager(), "datepicker");
+    }
+
+    public Date getSelectedTithi() {
+        return mSelectedTithi;
+    }
+
+    public void selectTithi(Date date) {
 
         if (mTithiListAdapter == null) {
             return;
         }
 
-        try {
-            ((TextView)findViewById(R.id.tithi_day)).setText(NepaliTranslator.getNumber(mTithiListAdapter.getDate(position)+""));
-            Pair<String, String> tithi = mTithiListAdapter.getTithi(position);
+        mSelectedTithi = date;
+        if (date != null) {
+            ((TextView)findViewById(R.id.tithi_day)).setText(NepaliTranslator.getNumber(date.day+""));
+            ((TextView)findViewById(R.id.tithi_month)).setText(NepaliTranslator.getMonth(date.month));
+            ((TextView)findViewById(R.id.tithi_year)).setText(NepaliTranslator.getNumber(date.year + ""));
+
+            Pair<String, String> tithi = new TithiDb(this).get(String.format(Locale.US, "%04d-%02d-%02d", date.year, date.month, date.day));
+
+            if (tithi == null || (tithi.first.equals("") && tithi.second.equals(""))) {
+                ((TextView)findViewById(R.id.tithi)).setText("");
+                ((TextView)findViewById(R.id.tithi_extra)).setText("");
+                return;
+            }
+
             ((TextView)findViewById(R.id.tithi)).setText(tithi.first);
             ((TextView)findViewById(R.id.tithi_extra)).setText(tithi.second);
 
@@ -212,15 +244,17 @@ public class MainActivity extends AppCompatActivity {
             }
 
             findViewById(R.id.tithi_header).setVisibility(View.VISIBLE);
-        } catch (Exception exception) {
+        } else {
             findViewById(R.id.tithi_header).setVisibility(View.GONE);
         }
+
+        mMonthPagerAdapter.notifyDataSetChanged();
     }
 
     public void scrollToToday() {
         Date today = new Date(Calendar.getInstance()).convertToNepali();
         mMonthPager.setCurrentItem(
-                (today.year - DateUtils.startNepaliYear) * 12 + (today.month - 1)
+                (today.year - DateUtils.startNepaliYear) * 12 + (today.month - 1), true
         );
     }
 

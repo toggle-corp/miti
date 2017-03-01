@@ -3,9 +3,7 @@ package com.togglecorp.miti.ui;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +11,6 @@ import android.view.ViewGroup;
 import com.togglecorp.miti.R;
 import com.togglecorp.miti.adapters.DaysGridAdapter;
 import com.togglecorp.miti.adapters.DaysHeaderAdapter;
-import com.togglecorp.miti.adapters.TithiListAdapter;
 import com.togglecorp.miti.dateutils.Date;
 
 public class MonthFragment extends Fragment {
@@ -51,4 +48,11 @@ public class MonthFragment extends Fragment {
         }
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (mDaysGridAdapter != null) {
+            mDaysGridAdapter.notifyDataSetChanged();
+        }
+    }
 }

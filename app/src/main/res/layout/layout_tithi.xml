@@ -5,15 +5,16 @@
     android:layout_height="wrap_content">
 
     <RelativeLayout
-        android:layout_width="52dp"
+        android:layout_width="72dp"
         android:layout_height="52dp">
 
         <ImageView
             android:id="@+id/circle"
             android:padding="4dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:scaleType="fitXY"
+            android:layout_centerInParent="true"
             android:src="@drawable/circle_mark"/>
 
         <TextView
