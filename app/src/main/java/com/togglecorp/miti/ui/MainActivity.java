@@ -1,6 +1,8 @@
 package com.togglecorp.miti.ui;
 
+import android.content.Intent;
 import android.content.res.Resources;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.view.ViewPager;
@@ -23,6 +25,9 @@ import com.togglecorp.miti.dateutils.DateUtils;
 import com.togglecorp.miti.dateutils.NepaliTranslator;
 import com.togglecorp.miti.dateutils.TithiDb;
 import com.togglecorp.miti.dateutils.TithiGrabber;
+import com.togglecorp.miti.helpers.DailyBroadcastReceiver;
+import com.togglecorp.miti.helpers.ThemeUtils;
+import com.togglecorp.miti.helpers.TodayNotification;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -36,10 +41,17 @@ public class MainActivity extends AppCompatActivity {
 
     private int mCurrentYear, mCurrentMonth;
 
+    private String mCurrentTheme;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeUtils.setActivityTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mCurrentTheme = PreferenceManager.getDefaultSharedPreferences(this).getString(SettingsActivity.KEY_PREF_THEME, "Purple");
+
+        DailyBroadcastReceiver.setupAlarm(this);
 
         // Fetch all tithi data
         new android.os.Handler().postDelayed(new Runnable() {
@@ -54,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                         if (mMonthPagerAdapter != null) {
                             mMonthPagerAdapter.notifyDataSetChanged();
                         }
-                        selectTithi(mSelectedTithi);
+                        selectDate(mSelectedDate);
                     }
                 });
             }
@@ -83,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // By default select today
-        selectTithi(new Date(Calendar.getInstance()).convertToNepali());
+        selectDate(new Date(Calendar.getInstance()).convertToNepali());
 
 
         setupBottomSheet();
@@ -108,6 +120,17 @@ public class MainActivity extends AppCompatActivity {
         if(mMonthPager != null){
             mMonthPagerAdapter.notifyDataSetChanged();
             mMonthPager.setCurrentItem(savedInstanceState.getInt("LAST_PAGE", 0));
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String theme = PreferenceManager.getDefaultSharedPreferences(this).getString(SettingsActivity.KEY_PREF_THEME, "Purple");;
+        if (!mCurrentTheme.equals(theme)) {
+            mCurrentTheme = theme;
+            finish();
+            startActivity(new Intent(this, MainActivity.class));
         }
     }
 
@@ -182,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
                 findViewById(R.id.bottom_sheet_padding).setLayoutParams(
                         new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                                (int)(slideOffset*dpToPixels(160-3)+dpToPixels(3)))
+                                (int)(slideOffset*dpToPixels(144-3)+dpToPixels(3)))
                 );
             }
         });
@@ -198,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private Date mSelectedTithi = null;
+    private Date mSelectedDate = null;
     public void pickDate(View view) {
         new YearMonthPicker(new YearMonthPicker.Listener() {
             @Override
@@ -210,17 +233,17 @@ public class MainActivity extends AppCompatActivity {
         }, mCurrentYear, mCurrentMonth).show(getFragmentManager(), "datepicker");
     }
 
-    public Date getSelectedTithi() {
-        return mSelectedTithi;
+    public Date getSelectedDate() {
+        return mSelectedDate;
     }
 
-    public void selectTithi(Date date) {
+    public void selectDate(Date date) {
 
         if (mTithiListAdapter == null) {
             return;
         }
 
-        mSelectedTithi = date;
+        mSelectedDate = date;
         if (date != null) {
             ((TextView)findViewById(R.id.tithi_day)).setText(NepaliTranslator.getNumber(date.day+""));
             ((TextView)findViewById(R.id.tithi_month)).setText(NepaliTranslator.getMonth(date.month));
@@ -249,6 +272,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         mMonthPagerAdapter.notifyDataSetChanged();
+        mTithiListAdapter.notifyDataSetChanged();
     }
 
     public void scrollToToday() {
@@ -261,5 +285,9 @@ public class MainActivity extends AppCompatActivity {
     public int dpToPixels(int dp) {
         Resources r = getResources();
         return (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
+    }
+
+    public void openSettings(View view) {
+        startActivity(new Intent(this, SettingsActivity.class));
     }
 }

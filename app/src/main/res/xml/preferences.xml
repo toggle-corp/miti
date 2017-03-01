@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="Notification">
+
+        <CheckBoxPreference
+            android:key="pref_show_daily_notification"
+            android:title="Show daily date notification"
+            android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Theme">
+
+        <com.togglecorp.miti.ui.ThemePreference
+            android:title="Select theme"
+            android:key="pref_theme"
+            android:defaultValue="Purple"/>
+
+    </PreferenceCategory>
+</PreferenceScreen>

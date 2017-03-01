@@ -1,7 +1,6 @@
 package com.togglecorp.miti.adapters;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
@@ -27,6 +26,7 @@ public class TithiListAdapter extends RecyclerView.Adapter<TithiListAdapter.View
 
     private Activity mActivity;
     private TithiDb mTithiDb;
+    private int mYear, mMonth;
 
     private List<Integer> mDays = new ArrayList<>();
     private List<Pair<String, String>> mTithis = new ArrayList<>();
@@ -45,6 +45,8 @@ public class TithiListAdapter extends RecyclerView.Adapter<TithiListAdapter.View
 
         mDays.clear();
         mTithis.clear();
+        mYear = year;
+        mMonth = month;
 
         new AsyncTask<Void, Void, Void>() {
             @Override
@@ -107,7 +109,15 @@ public class TithiListAdapter extends RecyclerView.Adapter<TithiListAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        if (mDays.size() == 0) {
+            holder.day.setText("");
+            holder.circle.setVisibility(View.GONE);
+            holder.extra.setVisibility(View.GONE);
+            holder.tithi.setText("यस महिनाको तिथि विवरण उपलब्ध छैन");
+            return;
+        }
+
         Pair<String, String> tithi = mTithis.get(position);
 
         holder.day.setText(NepaliTranslator.getNumber(mDays.get(position).toString()));
@@ -126,11 +136,23 @@ public class TithiListAdapter extends RecyclerView.Adapter<TithiListAdapter.View
         } else {
             holder.extra.setVisibility(View.VISIBLE);
         }
+
+        if (((MainActivity)mActivity).getSelectedDate().equals(new Date(mYear, mMonth, mDays.get(position)))) {
+            holder.circle.setVisibility(View.VISIBLE);
+            holder.circle.setColorFilter(ThemeUtils.getThemeColor(mActivity, R.attr.colorPrimary));
+        }
+
+        holder.day.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)mActivity).selectDate(new Date(mYear, mMonth, mDays.get(holder.getAdapterPosition())));
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return mDays.size();
+        return mDays.size() > 0 ? mDays.size() : 1;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

@@ -69,7 +69,7 @@ public class DaysGridAdapter extends RecyclerView.Adapter<DaysGridAdapter.ViewHo
             holder.textView2.setText(nepaliDate.convertToEnglish().day + "");
 
             // Selected
-            if (nepaliDate.equals(((MainActivity)mActivity).getSelectedTithi())) {
+            if (nepaliDate.equals(((MainActivity)mActivity).getSelectedDate())) {
                 holder.circle.setVisibility(View.VISIBLE);
                 holder.circle.setColorFilter(ThemeUtils.getThemeColor(mActivity, R.attr.colorPrimary));
             }
@@ -91,7 +91,7 @@ public class DaysGridAdapter extends RecyclerView.Adapter<DaysGridAdapter.ViewHo
                 if (holder.getAdapterPosition() >= mExtraDays) {
                     int dt = holder.getAdapterPosition() + 1 - mExtraDays;
                     Date nepaliDate = new Date(mDate.year, mDate.month, dt);
-                    ((MainActivity)mActivity).selectTithi(nepaliDate);
+                    ((MainActivity)mActivity).selectDate(nepaliDate);
                     notifyDataSetChanged();
                 }
             }

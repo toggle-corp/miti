@@ -18,11 +18,10 @@
             android:id="@+id/header"
             android:gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="144dp"
             android:orientation="vertical"
             android:elevation="4dp"
-            android:background="@color/colorPrimary"
-            android:theme="@style/AppToolbarTheme">
+            android:background="?colorPrimary">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -34,6 +33,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="#fff"
                     android:textSize="21sp"
                     android:text="@string/app_name_nepali"/>
 
@@ -49,6 +49,7 @@
                         android:background="@drawable/ic_empty_calendar"
                         android:layout_gravity="bottom"
                         android:gravity="center"
+                        android:textColor="#fff"
                         android:textSize="9sp"
                         android:text="१७"/>
 
@@ -57,7 +58,8 @@
                         android:layout_height="18dp"
                         android:layout_marginLeft="16dp"
                         android:background="@android:color/transparent"
-                        android:src="@drawable/ic_settings"/>
+                        android:src="@drawable/ic_settings"
+                        android:onClick="openSettings"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -87,6 +89,7 @@
                         android:id="@+id/nepali_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="#fff"
                         android:textSize="16sp"
                         android:text="२०७३ बैशाख"/>
 
@@ -94,6 +97,7 @@
                         android:id="@+id/english_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="#fff"
                         android:textSize="12sp"
                         android:text="March/April 2017"/>
 
@@ -143,8 +147,7 @@
             android:layout_height="64dp"
             android:orientation="vertical"
             android:elevation="2dp"
-            android:outlineProvider="bounds"
-            android:theme="@style/AppToolbarTheme">
+            android:outlineProvider="bounds">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -156,7 +159,7 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:background="@color/colorPrimary">
+                    android:background="?colorPrimary">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -169,6 +172,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="2dp"
+                            android:textColor="#fff"
                             android:textSize="14sp"
                             android:text="१"/>
 
@@ -177,6 +181,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="2dp"
+                            android:textColor="#fff"
                             android:textSize="11sp"
                             android:text="१"/>
                     </LinearLayout>
@@ -186,6 +191,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
+                        android:textColor="#fff"
                         android:text="१"/>
 
                 </LinearLayout>
@@ -196,13 +202,14 @@
                     android:paddingLeft="10dp"
                     android:orientation="vertical"
                     android:gravity="center_vertical"
-                    android:background="@color/colorPrimaryDark">
+                    android:background="?colorPrimaryDark">
 
                         <TextView
                             android:id="@+id/tithi"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="4dp"
+                            android:textColor="#fff"
                             android:textSize="10dp"
                             android:text="सप्तमी"/>
 
@@ -211,6 +218,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="4dp"
+                            android:textColor="#fff"
                             android:textSize="10dp"
                             android:text="तराई होलि"/>
                 </LinearLayout>

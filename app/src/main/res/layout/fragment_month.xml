@@ -15,8 +15,7 @@
             android:id="@+id/days_header_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/AppToolbarTheme"
-            android:background="@color/colorPrimaryDark"/>
+            android:background="?colorPrimaryDark"/>
 
         <!-- Days grid -->
         <android.support.v7.widget.RecyclerView
