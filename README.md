@@ -14,7 +14,7 @@ pip install -r requirements.txt
 python3 pullData.py 2070 2074
 ```
 
-> Data are stored at dump/json.dumps file(by default).
+> Data are stored at dump/dump.json file(by default).
 
 > For custom location:
 ```bash
