@@ -59,6 +59,7 @@ public class DaysGridAdapter extends RecyclerView.Adapter<DaysGridAdapter.ViewHo
 
         } else {
             holder.circle.setVisibility(View.GONE);
+//            holder.circle.setColorFilter(ThemeUtils.getThemeColor(mActivity, R.attr.itemTextColor)); TODO
         }
 
         // Fill in after the extra days

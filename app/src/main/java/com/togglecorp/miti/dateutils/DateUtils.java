@@ -1,5 +1,7 @@
 package com.togglecorp.miti.dateutils;
 
+import android.util.Log;
+
 import java.util.Calendar;
 import java.util.Locale;
 

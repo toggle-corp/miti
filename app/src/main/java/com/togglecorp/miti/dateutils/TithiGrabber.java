@@ -22,7 +22,8 @@ import java.util.Scanner;
  */
 public class TithiGrabber {
 
-    public static final String URL = "https://raw.githubusercontent.com/bibekdahal/tithi/master/data.json";
+//    public static final String URL = "https://raw.githubusercontent.com/bibekdahal/tithi/master/data.json";
+    public static final String URL = "https://raw.githubusercontent.com/toggle-corp/miti/scraping/dump/dump.json";
 
     public interface Listener {
         void onNewDataFetched();
@@ -52,17 +53,18 @@ public class TithiGrabber {
             JSONObject element = data.getJSONObject(i);
 
             String date = element.getString("date");
+            date = date.replaceAll("/", "-");
             String tithi = element.getString("tithi");
-            String extra = element.getString("extra");
+            JSONObject extra = element.getJSONObject("extra");
 
             // Check if date exists and update if it does.
             // Insert new if it doesn't.
 
             Pair<String, String> pair = db.get(date);
             if (pair == null)
-                db.insert(date, tithi, extra);
+                db.insert(date, tithi, extra.optString("event", ""));
             else
-                db.update(date, tithi, extra);
+                db.update(date, tithi, extra.optString("event", ""));
         }
     }
 

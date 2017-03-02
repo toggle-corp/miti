@@ -27,14 +27,6 @@
         android:gravity="center">
 
         <View
-            android:id="@+id/theme_purple"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:background="@color/colorPrimaryPurple"/>
-
-        <View
             android:id="@+id/theme_red"
             android:layout_width="32dp"
             android:layout_height="32dp"
@@ -49,6 +41,13 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:background="@color/colorPrimaryGreen"/>
+        <View
+            android:id="@+id/theme_purple"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/colorPrimaryPurple"/>
     </LinearLayout>
 
 </LinearLayout>

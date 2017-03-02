@@ -42,22 +42,18 @@
                     android:layout_height="wrap_content"
                     android:gravity="end|center">
 
-                    <Button
+                    <ImageButton
                         android:id="@+id/today"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:background="@drawable/ic_empty_calendar"
-                        android:layout_gravity="bottom"
-                        android:gravity="center"
-                        android:textColor="#fff"
-                        android:textSize="9sp"
-                        android:text="१७"/>
+                        android:layout_width="32dp"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitCenter"
+                        android:background="?attr/selectableItemBackgroundBorderless"/>
 
                     <ImageButton
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="24dp"
+                        android:layout_height="match_parent"
                         android:layout_marginLeft="16dp"
-                        android:background="@android:color/transparent"
+                        android:background="?attr/selectableItemBackgroundBorderless"
                         android:src="@drawable/ic_settings"
                         android:onClick="openSettings"/>
                 </LinearLayout>
@@ -107,7 +103,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@android:color/transparent"
+                    android:background="?attr/selectableItemBackground"
                     android:src="@drawable/ic_chevron_right"
                     android:onClick="nextMonth"/>
 
@@ -144,7 +140,7 @@
         <LinearLayout
             android:id="@+id/tithi_header"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
+            android:layout_height="52dp"
             android:orientation="vertical"
             android:elevation="2dp"
             android:outlineProvider="bounds">

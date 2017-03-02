@@ -1,6 +1,9 @@
 package com.togglecorp.miti.dateutils;
 
+import android.util.Log;
+
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 /**
@@ -46,8 +49,7 @@ public class Date {
      * @return Calendar instance corresponding to this English date.
      */
     public Calendar getCalendar() {
-        Calendar c = Calendar.getInstance();
-        c.clear();
+        Calendar c = new GregorianCalendar();
         c.set(year, month - 1, day);
         return c;
 
@@ -73,9 +75,17 @@ public class Date {
      * @return (this - newDate) as number of days
      */
     public int getDaysTill(Date newDate) {
-        return (int)((newDate.getCalendar().getTimeInMillis()
-                - getCalendar().getTimeInMillis())
-                / (24*60*60*1000))+1;
+//        int t = (int)((newDate.getCalendar().getTime().getTime()
+//                - getCalendar().getTime().getTime())
+//                / (24*60*60*1000))+1;
+        return getJulianDay(newDate.year, newDate.month, newDate.day) - getJulianDay(year, month, day);
+    }
+
+    public static int getJulianDay(int year, int month, int day) {
+        int a = (14 - month) / 12;
+        int y = year + 4800 - a;
+        int m = month + 12 * a - 3;
+        return day + (153 * m + 2)/5 + 365*y + y/4 - y/100 + y/400 - 32045;
     }
 
     /**

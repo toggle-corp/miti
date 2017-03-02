@@ -64,8 +64,7 @@ public class TithiListAdapter extends RecyclerView.Adapter<TithiListAdapter.View
                             return null;
                         }
 
-                        String date = String.format(Locale.US, "%04d-%02d-%02d", year, month, i);
-                        Pair<String, String> tithi = mTithiDb.get(date);
+                        Pair<String, String> tithi = mTithiDb.get(year*10000+month*100+i);
 
                         if (tithi != null && !(tithi.first.equals("") && tithi.second.equals(""))) {
                             days.add(i);
@@ -142,10 +141,10 @@ public class TithiListAdapter extends RecyclerView.Adapter<TithiListAdapter.View
             holder.circle.setColorFilter(ThemeUtils.getThemeColor(mActivity, R.attr.colorPrimary));
         }
 
-        holder.day.setOnClickListener(new View.OnClickListener() {
+        holder.root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)mActivity).selectDate(new Date(mYear, mMonth, mDays.get(holder.getAdapterPosition())));
+            ((MainActivity)mActivity).selectDate(new Date(mYear, mMonth, mDays.get(holder.getAdapterPosition())));
             }
         });
     }
@@ -156,6 +155,7 @@ public class TithiListAdapter extends RecyclerView.Adapter<TithiListAdapter.View
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        private View root;
         private TextView day;
         private TextView tithi;
         private TextView extra;
@@ -164,6 +164,7 @@ public class TithiListAdapter extends RecyclerView.Adapter<TithiListAdapter.View
         public ViewHolder(View itemView) {
             super(itemView);
 
+            root = itemView;
             day = (TextView)itemView.findViewById(R.id.day);
             tithi = (TextView)itemView.findViewById(R.id.tithi);
             extra = (TextView)itemView.findViewById(R.id.extra);

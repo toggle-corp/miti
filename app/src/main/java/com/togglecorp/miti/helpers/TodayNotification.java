@@ -21,6 +21,7 @@ import java.util.Calendar;
 
 
 public class TodayNotification {
+
     public static void show(Context context) {
         Date today = new Date(Calendar.getInstance()).convertToNepali();
 
@@ -37,7 +38,7 @@ public class TodayNotification {
         // Build a notification
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.ic_empty_calendar)
+                        .setSmallIcon(ThemeUtils.DATE_ICONS[today.day-1])
                         .setContentTitle(title)
                         .setContentText(body)
                         .setOngoing(true);
@@ -46,11 +47,7 @@ public class TodayNotification {
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addParentStack(MainActivity.class);
         stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(
-                        0,
-                        PendingIntent.FLAG_UPDATE_CURRENT
-                );
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
         mBuilder.setContentIntent(resultPendingIntent);
         NotificationManager mNotificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

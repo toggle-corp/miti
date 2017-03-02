@@ -5,15 +5,18 @@ import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.Pair;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -57,16 +60,21 @@ public class MainActivity extends AppCompatActivity {
         new android.os.Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+
                 new TithiGrabber(MainActivity.this).fetchData(new TithiGrabber.Listener() {
                     @Override
                     public void onNewDataFetched() {
-                        if (mTithiListAdapter != null) {
-                            mTithiListAdapter.notifyDataSetChanged();
-                        }
-                        if (mMonthPagerAdapter != null) {
-                            mMonthPagerAdapter.notifyDataSetChanged();
-                        }
-                        selectDate(mSelectedDate);
+
+                        try {
+
+                            if (mTithiListAdapter != null) {
+                                mTithiListAdapter.notifyDataSetChanged();
+                            }
+                            if (mMonthPagerAdapter != null) {
+                                mMonthPagerAdapter.notifyDataSetChanged();
+                            }
+                            selectDate(mSelectedDate);
+                        } catch (Exception ignored) {}
                     }
                 });
             }
@@ -172,7 +180,9 @@ public class MainActivity extends AppCompatActivity {
 
             // Today
             Date today = new Date(Calendar.getInstance()).convertToNepali();
-            ((TextView)findViewById(R.id.today)).setText(NepaliTranslator.getNumber(today.day+""));
+            ((ImageButton)findViewById(R.id.today))
+                    .setImageDrawable(ContextCompat.getDrawable(MainActivity.this, ThemeUtils.DATE_ICONS[today.day-1]));
+//            ((TextView)findViewById(R.id.today)).setText(NepaliTranslator.getNumber(today.day+""));
 
             mCurrentYear = year;
             mCurrentMonth = month;
@@ -272,7 +282,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         mMonthPagerAdapter.notifyDataSetChanged();
-        mTithiListAdapter.notifyDataSetChanged();
+        for (int i=0; i<mTithiListAdapter.getItemCount(); i++) {
+            mTithiListAdapter.notifyItemChanged(i);
+        }
+//        mTithiListAdapter.notifyDataSetChanged();
     }
 
     public void scrollToToday() {

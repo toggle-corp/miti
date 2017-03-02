@@ -3,17 +3,19 @@
     <!--Purple-->
     <color name="colorPrimaryPurple">#673AB7</color>
     <color name="colorPrimaryDarkPurple">#512DA8</color>
-    <color name="colorAccentPurple">#FF8C19</color>
+    <color name="colorAccentPurple">#8BC34A</color>
 
     <!--Green-->
     <color name="colorPrimaryGreen">#4CAF50</color>
     <color name="colorPrimaryDarkGreen">#388E3C</color>
-    <color name="colorAccentGreen">#448AFF</color>
+    <color name="colorAccentGreen">#B2004D</color>
 
     <!--Red-->
     <color name="colorPrimaryRed">#F44336</color>
     <color name="colorPrimaryDarkRed">#D32F2F</color>
     <color name="colorAccentRed">#536DFE</color>
+
+
 
     <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondaryText">#757575</color>
