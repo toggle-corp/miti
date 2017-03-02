@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.togglecorp.miti.R;
+import com.togglecorp.miti.helpers.DailyBroadcastReceiver;
 import com.togglecorp.miti.helpers.ThemeUtils;
 import com.togglecorp.miti.helpers.TodayNotification;
 
@@ -74,7 +75,7 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             if (key.equals(KEY_PREF_SHOW_DAILY_NOTIFICATION)) {
-                TodayNotification.refresh(getActivity());
+                DailyBroadcastReceiver.setupAlarm(getActivity());
             }
             else if (key.equals(KEY_PREF_THEME)) {
                 getActivity().startActivity(new Intent(getActivity(), SettingsActivity.class));

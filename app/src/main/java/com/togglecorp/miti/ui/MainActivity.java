@@ -11,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Pair;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
@@ -31,7 +30,6 @@ import com.togglecorp.miti.helpers.DailyBroadcastReceiver;
 import com.togglecorp.miti.helpers.ThemeUtils;
 
 import java.util.Calendar;
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -168,8 +166,8 @@ public class MainActivity extends AppCompatActivity {
             Date eDate1 = new Date(year, month, 1).convertToEnglish();
             Date eDate2 = new Date(year, month, 26).convertToEnglish();
 
-            String english = DateUtils.getEnglishMonth(eDate1.month) + "/"
-                    + DateUtils.getEnglishMonth(eDate2.month);
+            String english = DateUtils.getEnglishShort(eDate1.month) + "/"
+                    + DateUtils.getEnglishShort(eDate2.month);
             english += " " + eDate1.year + (eDate1.year==eDate2.year?"":"/"+eDate2.year);
 
             ((TextView)findViewById(R.id.nepali_title)).setText(nepali);
@@ -257,7 +255,7 @@ public class MainActivity extends AppCompatActivity {
             ((TextView)findViewById(R.id.tithi_month)).setText(NepaliTranslator.getMonth(date.month));
             ((TextView)findViewById(R.id.tithi_year)).setText(NepaliTranslator.getNumber(date.year + ""));
 
-            MitiDb.DateItem dateItem = new MitiDb(this).get(String.format(Locale.US, "%04d-%02d-%02d", date.year, date.month, date.day));
+            MitiDb.DateItem dateItem = new MitiDb(this).get(date);
 
             if (dateItem == null || (dateItem.tithi.equals("") && dateItem.extra.equals(""))) {
                 ((TextView)findViewById(R.id.tithi)).setText("");

@@ -10,7 +10,7 @@ import android.util.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MitiDb extends SQLiteOpenHelper{
+public class MitiDb extends SQLiteOpenHelper {
 
     public static class DateItem {
         public String tithi;
@@ -44,9 +44,7 @@ public class MitiDb extends SQLiteOpenHelper{
         deleteAll(db);
     }
 
-    /**
-     * Delete all data in the database.
-     */
+
     public void deleteAll() {
         SQLiteDatabase db = getWritableDatabase();
         deleteAll(db);
@@ -78,14 +76,6 @@ public class MitiDb extends SQLiteOpenHelper{
         db.close();
     }
 
-    public DateItem get(String date) {
-        SQLiteDatabase db = getReadableDatabase();
-        DateItem item = getTithi(db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE date=?",
-                new String[]{stripDate(date)}), true);
-        db.close();
-        return item;
-    }
-
     public DateItem get(Integer date) {
         SQLiteDatabase db = getReadableDatabase();
         DateItem item = getTithi(db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE date=?",
@@ -93,6 +83,15 @@ public class MitiDb extends SQLiteOpenHelper{
         db.close();
         return item;
     }
+
+    public DateItem get(String date) {
+        return get(Integer.parseInt(stripDate(date)));
+    }
+
+    public DateItem get(Date now) {
+        return get(now.year*10000 + now.month*100 + now.day);
+    }
+
 
 //    public List<DateItem> get(List<Integer> dates) {
 //        String joinedDate = dates.get(0).toString();

@@ -21,13 +21,31 @@
 
 
         <!-- Widgets -->
-        <receiver android:name=".widgets.TestWidgetProvider" >
+        <receiver android:name=".widgets.NepaliMinimalWidgetProvider" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
             <meta-data android:name="android.appwidget.provider"
-                android:resource="@xml/test_widget_provider_info" />
+                android:resource="@xml/widget_minimal_nepali_provider_info" />
         </receiver>
+
+        <receiver android:name=".widgets.NepaliEnglishMinimalWidgetProvider" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/widget_minimal_nepali_english_provider_info" />
+        </receiver>
+
+        <receiver android:name=".widgets.MonthWidgetProvider" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/widget_month_provider_info" />
+        </receiver>
+        <service android:name=".widgets.GridWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
 
         <!-- Broadcast receivers -->
         <receiver android:name=".helpers.DailyBroadcastReceiver"/>
