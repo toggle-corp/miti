@@ -50,7 +50,7 @@
                         android:background="?attr/selectableItemBackgroundBorderless"/>
 
                     <ImageButton
-                        android:layout_width="24dp"
+                        android:layout_width="32dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="16dp"
                         android:background="?attr/selectableItemBackgroundBorderless"
@@ -69,17 +69,20 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@android:color/transparent"
+                    android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/ic_chevron_left"
                     android:onClick="previousMonth"/>
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="6"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:onClick="pickDate">
+                    android:onClick="pickDate"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackground">
 
                     <TextView
                         android:id="@+id/nepali_title"
@@ -103,7 +106,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="?attr/selectableItemBackground"
+                    android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/ic_chevron_right"
                     android:onClick="nextMonth"/>
 

@@ -1,10 +1,7 @@
 package com.togglecorp.miti.dateutils;
 
-import android.util.Log;
-
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Locale;
 
 /**
  * Simple Date class to store the tuple (year, month, day).
@@ -75,9 +72,6 @@ public class Date {
      * @return (this - newDate) as number of days
      */
     public int getDaysTill(Date newDate) {
-//        int t = (int)((newDate.getCalendar().getTime().getTime()
-//                - getCalendar().getTime().getTime())
-//                / (24*60*60*1000))+1;
         return getJulianDay(newDate.year, newDate.month, newDate.day) - getJulianDay(year, month, day);
     }
 

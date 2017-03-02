@@ -10,10 +10,9 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Pair;
 
-import com.togglecorp.miti.R;
 import com.togglecorp.miti.dateutils.Date;
 import com.togglecorp.miti.dateutils.NepaliTranslator;
-import com.togglecorp.miti.dateutils.TithiDb;
+import com.togglecorp.miti.dateutils.MitiDb;
 import com.togglecorp.miti.ui.MainActivity;
 import com.togglecorp.miti.ui.SettingsActivity;
 
@@ -30,9 +29,9 @@ public class TodayNotification {
                 + NepaliTranslator.getMonth(today.month) + ", "
                 + NepaliTranslator.getNumber(today.year+"");
         String body = "";
-        Pair<String, String> tithi = new TithiDb(context).get(today.toString());
-        if (tithi != null) {
-            body = tithi.first + ((tithi.second.length() > 0) ? (", " + tithi.second) : "");
+        MitiDb.DateItem dateItem = new MitiDb(context).get(today.toString());
+        if (dateItem != null) {
+            body = dateItem.tithi + ((dateItem.extra.length() > 0) ? (", " + dateItem.extra) : "");
         }
 
         // Build a notification

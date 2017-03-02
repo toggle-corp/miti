@@ -10,41 +10,35 @@ import android.util.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Nepali Tithi Database.
- */
-public class TithiDb extends SQLiteOpenHelper{
+public class MitiDb extends SQLiteOpenHelper{
 
-    /// Database name.
-    public static final String DATABASE_NAME = "Miti.Tithi.db";
-    /// Database version.
-    public static final int DATABASE_VERSION = 3;
+    public static class DateItem {
+        public String tithi;
+        public String extra;
+        public Boolean holiday;
+    };
 
-    /**
-     * Create Tithi Database Helper.
-     * @param context The context working on the database.
-     */
-    public TithiDb(Context context)
+    private static final String DATABASE_NAME = "Miti.db";
+    private static final int DATABASE_VERSION = 1;
+    private static final String TABLE_NAME = "miti";
+
+
+    public MitiDb(Context context)
     {
         super(context, DATABASE_NAME , null, DATABASE_VERSION);
     }
 
-    /**
-     * Create tithi table for given database.
-     */
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE tithi (" +
+        db.execSQL("CREATE TABLE " + TABLE_NAME + " (" +
                         "date INTEGER PRIMARY KEY, " +  // yyyymmdd
                         "tithi TEXT, " +
-                        "extra TEXT" +
+                        "extra TEXT," +
+                        "holiday INTEGER" +
                         ")"
         );
     }
 
-    /**
-     * Upgrade the database to new version. Basically delete the tithi table and create new one.
-     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         deleteAll(db);
@@ -59,62 +53,48 @@ public class TithiDb extends SQLiteOpenHelper{
         db.close();
     }
     private void deleteAll(SQLiteDatabase db) {
-        db.execSQL("DROP TABLE IF EXISTS tithi");
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
 
-    /**
-     * Insert new tithi data.
-     * @param date Date for which tithi is being inserted.
-     * @param tithi Tithi for the date.
-     * @param extra Extra information on the date.
-     */
-    public void insert(String date, String tithi, String extra) {
+    public void insert(String date, String tithi, String extra, boolean holiday) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("date", Integer.parseInt(stripDate(date)));
         values.put("tithi", tithi);
         values.put("extra", (extra==null || extra.equals("null")) ? "" : extra);
-        db.insert("tithi", null, values);
+        values.put("holiday", holiday?"1":"0");
+        db.insert(TABLE_NAME, null, values);
         db.close();
     }
 
-    /**
-     * Update tithi data for a date.
-     * @param date Date for which tithi is to be updated.
-     * @param tithi New tithi for the date.
-     * @param extra Extra information on the date.
-     */
-    public void update(String date, String tithi, String extra) {
+    public void update(String date, String tithi, String extra, boolean holiday) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("tithi", tithi);
         values.put("extra", (extra==null || extra.equals("null")) ? "" : extra);
-        db.update("tithi", values, "date=?", new String[]{stripDate(date)});
+        values.put("holiday", holiday?"1":"0");
+        db.update(TABLE_NAME, values, "date=?", new String[]{stripDate(date)});
         db.close();
     }
 
-    /**
-     * Get tithi data for a date.
-     * @param date Date for which tithi is to be obtained.
-     * @return A pair of strings (tithi, extra) for given date.
-     */
-    public Pair<String, String> get(String date) {
+    public DateItem get(String date) {
         SQLiteDatabase db = getReadableDatabase();
-        Pair<String, String> c = getTithi(db.rawQuery("SELECT * FROM tithi WHERE date=?",
+        DateItem item = getTithi(db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE date=?",
                 new String[]{stripDate(date)}), true);
         db.close();
-        return c;
-    }
-    public Pair<String, String> get(Integer date) {
-        SQLiteDatabase db = getReadableDatabase();
-        Pair<String, String> c = getTithi(db.rawQuery("SELECT * FROM tithi WHERE date=?",
-                new String[]{date+""}), true);
-        db.close();
-        return c;
+        return item;
     }
 
-//    public List<Pair<String, String>> get(List<Integer> dates) {
+    public DateItem get(Integer date) {
+        SQLiteDatabase db = getReadableDatabase();
+        DateItem item = getTithi(db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE date=?",
+                new String[]{date+""}), true);
+        db.close();
+        return item;
+    }
+
+//    public List<DateItem> get(List<Integer> dates) {
 //        String joinedDate = dates.get(0).toString();
 //        for (int i=1; i<dates.size(); i++) {
 //            joinedDate += ", " + dates.get(i).toString();
@@ -122,7 +102,7 @@ public class TithiDb extends SQLiteOpenHelper{
 //
 //        SQLiteDatabase db = getReadableDatabase();
 //        Cursor cursor = db.rawQuery("SELECT * FROM tithi WHERE date IN (" + joinedDate + ")", null);
-//        List<Pair<String, String>> r = new ArrayList<>();
+//        List<DateItem> r = new ArrayList<>();
 //
 //        while (cursor.moveToNext()) {
 //            r.add(getTithi(cursor, false));
@@ -139,22 +119,22 @@ public class TithiDb extends SQLiteOpenHelper{
      */
     public void delete(String date) {
         SQLiteDatabase db = getWritableDatabase();
-        db.delete("tithi", "date", new String[]{stripDate(date)});
+        db.delete(TABLE_NAME, "date", new String[]{stripDate(date)});
         db.close();
     }
 
-    private static Pair<String, String> getTithi(Cursor cursor, boolean closeCursor) {
+    private static DateItem getTithi(Cursor cursor, boolean closeCursor) {
         if (cursor.getCount() == 0)
             return null;
         cursor.moveToFirst();
-        Pair<String, String> r = new Pair<>(
-                cursor.getString(cursor.getColumnIndex("tithi")),
-                cursor.getString(cursor.getColumnIndex("extra"))
-        );
+        DateItem item = new DateItem();
+        item.tithi = cursor.getString(cursor.getColumnIndex("tithi"));
+        item.extra = cursor.getString(cursor.getColumnIndex("extra"));
+        item.holiday = cursor.getInt(cursor.getColumnIndex("holiday")) == 1;
         if (closeCursor) {
             cursor.close();
         }
-        return r;
+        return item;
     }
 
     private static String stripDate(String date){

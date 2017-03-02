@@ -1,7 +1,6 @@
 package com.togglecorp.miti.dateutils;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.util.Pair;
@@ -13,7 +12,6 @@ import org.json.JSONObject;
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
@@ -23,7 +21,7 @@ import java.util.Scanner;
 public class TithiGrabber {
 
 //    public static final String URL = "https://raw.githubusercontent.com/bibekdahal/tithi/master/data.json";
-    public static final String URL = "https://raw.githubusercontent.com/toggle-corp/miti/scraping/dump/dump.json";
+    private static final String URL = "https://raw.githubusercontent.com/toggle-corp/miti/scraping/dump/dump.json";
 
     public interface Listener {
         void onNewDataFetched();
@@ -45,7 +43,7 @@ public class TithiGrabber {
      * @throws JSONException
      */
     public void storeData(JSONObject jsonData) throws JSONException {
-        TithiDb db = new TithiDb(mContext);
+        MitiDb db = new MitiDb(mContext);
         JSONArray data = jsonData.getJSONArray("data");
 
         // Store each element in data array in the database.
@@ -60,11 +58,11 @@ public class TithiGrabber {
             // Check if date exists and update if it does.
             // Insert new if it doesn't.
 
-            Pair<String, String> pair = db.get(date);
-            if (pair == null)
-                db.insert(date, tithi, extra.optString("event", ""));
+            MitiDb.DateItem item = db.get(date);
+            if (item == null)
+                db.insert(date, tithi, extra.optString("event"), extra.optBoolean("holiday"));
             else
-                db.update(date, tithi, extra.optString("event", ""));
+                db.update(date, tithi, extra.optString("event"), extra.optBoolean("holiday"));
         }
     }
 

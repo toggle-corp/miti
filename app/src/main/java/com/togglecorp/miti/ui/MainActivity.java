@@ -11,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.Pair;
 import android.util.TypedValue;
 import android.view.MotionEvent;
@@ -26,11 +25,10 @@ import com.togglecorp.miti.adapters.TithiListAdapter;
 import com.togglecorp.miti.dateutils.Date;
 import com.togglecorp.miti.dateutils.DateUtils;
 import com.togglecorp.miti.dateutils.NepaliTranslator;
-import com.togglecorp.miti.dateutils.TithiDb;
+import com.togglecorp.miti.dateutils.MitiDb;
 import com.togglecorp.miti.dateutils.TithiGrabber;
 import com.togglecorp.miti.helpers.DailyBroadcastReceiver;
 import com.togglecorp.miti.helpers.ThemeUtils;
-import com.togglecorp.miti.helpers.TodayNotification;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -259,18 +257,18 @@ public class MainActivity extends AppCompatActivity {
             ((TextView)findViewById(R.id.tithi_month)).setText(NepaliTranslator.getMonth(date.month));
             ((TextView)findViewById(R.id.tithi_year)).setText(NepaliTranslator.getNumber(date.year + ""));
 
-            Pair<String, String> tithi = new TithiDb(this).get(String.format(Locale.US, "%04d-%02d-%02d", date.year, date.month, date.day));
+            MitiDb.DateItem dateItem = new MitiDb(this).get(String.format(Locale.US, "%04d-%02d-%02d", date.year, date.month, date.day));
 
-            if (tithi == null || (tithi.first.equals("") && tithi.second.equals(""))) {
+            if (dateItem == null || (dateItem.tithi.equals("") && dateItem.extra.equals(""))) {
                 ((TextView)findViewById(R.id.tithi)).setText("");
                 ((TextView)findViewById(R.id.tithi_extra)).setText("");
                 return;
             }
 
-            ((TextView)findViewById(R.id.tithi)).setText(tithi.first);
-            ((TextView)findViewById(R.id.tithi_extra)).setText(tithi.second);
+            ((TextView)findViewById(R.id.tithi)).setText(dateItem.tithi);
+            ((TextView)findViewById(R.id.tithi_extra)).setText(dateItem.extra);
 
-            if (tithi.second.trim().length() == 0) {
+            if (dateItem.extra.trim().length() == 0) {
                 findViewById(R.id.tithi_extra).setVisibility(View.GONE);
             } else {
                 findViewById(R.id.tithi_extra).setVisibility(View.VISIBLE);

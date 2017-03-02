@@ -3,7 +3,6 @@ package com.togglecorp.miti.adapters;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,30 +12,29 @@ import android.widget.TextView;
 import com.togglecorp.miti.R;
 import com.togglecorp.miti.dateutils.Date;
 import com.togglecorp.miti.dateutils.NepaliTranslator;
-import com.togglecorp.miti.dateutils.TithiDb;
+import com.togglecorp.miti.dateutils.MitiDb;
 import com.togglecorp.miti.helpers.ThemeUtils;
 import com.togglecorp.miti.ui.MainActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 public class TithiListAdapter extends RecyclerView.Adapter<TithiListAdapter.ViewHolder> {
 
     private Activity mActivity;
-    private TithiDb mTithiDb;
+    private MitiDb mMitiDb;
     private int mYear, mMonth;
 
     private List<Integer> mDays = new ArrayList<>();
-    private List<Pair<String, String>> mTithis = new ArrayList<>();
+    private List<MitiDb.DateItem> mDateItems = new ArrayList<>();
     private int mToday;
 
     private boolean mNewDate = false;
 
     public TithiListAdapter(Activity activity) {
         mActivity = activity;
-        mTithiDb = new TithiDb(activity);
+        mMitiDb = new MitiDb(activity);
     }
 
     public void setDate(final int year, final int month) {
@@ -44,7 +42,7 @@ public class TithiListAdapter extends RecyclerView.Adapter<TithiListAdapter.View
         mNewDate = true;
 
         mDays.clear();
-        mTithis.clear();
+        mDateItems.clear();
         mYear = year;
         mMonth = month;
 
@@ -55,7 +53,7 @@ public class TithiListAdapter extends RecyclerView.Adapter<TithiListAdapter.View
 
                 try {
                     List<Integer> days = new ArrayList<Integer>();
-                    List<Pair<String, String>> tithis = new ArrayList<>();
+                    List<MitiDb.DateItem> items = new ArrayList<>();
 
                     for (int i=1; i<=32; i++) {
 
@@ -64,11 +62,11 @@ public class TithiListAdapter extends RecyclerView.Adapter<TithiListAdapter.View
                             return null;
                         }
 
-                        Pair<String, String> tithi = mTithiDb.get(year*10000+month*100+i);
+                        MitiDb.DateItem tithi = mMitiDb.get(year*10000+month*100+i);
 
-                        if (tithi != null && !(tithi.first.equals("") && tithi.second.equals(""))) {
+                        if (tithi != null && !(tithi.tithi.equals("") && tithi.extra.equals(""))) {
                             days.add(i);
-                            tithis.add(tithi);
+                            items.add(tithi);
                         }
                     }
 
@@ -77,7 +75,7 @@ public class TithiListAdapter extends RecyclerView.Adapter<TithiListAdapter.View
                     }
 
                     mDays = days;
-                    mTithis = tithis;
+                    mDateItems = items;
 
                     mToday = -1;
                     Date today = new Date(Calendar.getInstance()).convertToNepali();
@@ -117,11 +115,11 @@ public class TithiListAdapter extends RecyclerView.Adapter<TithiListAdapter.View
             return;
         }
 
-        Pair<String, String> tithi = mTithis.get(position);
+        MitiDb.DateItem item = mDateItems.get(position);
 
         holder.day.setText(NepaliTranslator.getNumber(mDays.get(position).toString()));
-        holder.tithi.setText(tithi.first);
-        holder.extra.setText(tithi.second);
+        holder.tithi.setText(item.tithi);
+        holder.extra.setText(item.extra);
 
         if (mToday == position) {
             holder.circle.setVisibility(View.VISIBLE);
@@ -130,7 +128,7 @@ public class TithiListAdapter extends RecyclerView.Adapter<TithiListAdapter.View
             holder.circle.setVisibility(View.INVISIBLE);
         }
 
-        if (tithi.second.trim().length() == 0) {
+        if (item.extra.trim().length() == 0) {
             holder.extra.setVisibility(View.GONE);
         } else {
             holder.extra.setVisibility(View.VISIBLE);
