@@ -1,13 +1,16 @@
 package com.togglecorp.miti.widgets;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.widget.RemoteViews;
 
 import com.togglecorp.miti.R;
 import com.togglecorp.miti.dateutils.Date;
 import com.togglecorp.miti.dateutils.NepaliTranslator;
+import com.togglecorp.miti.ui.MainActivity;
 
 import java.util.Calendar;
 
@@ -27,5 +30,12 @@ public class MonthWidgetProvider extends BaseWidgetProvider {
         Intent intent = new Intent(context, GridWidgetService.class);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         remoteViews.setRemoteAdapter(R.id.grid, intent);
+
+
+        Intent startActivityIntent = new Intent(context, MainActivity.class);
+        PendingIntent startActivityPendingIntent = PendingIntent.getActivity(context, 0,
+                startActivityIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        remoteViews.setPendingIntentTemplate(R.id.grid, startActivityPendingIntent);
+
     }
 }

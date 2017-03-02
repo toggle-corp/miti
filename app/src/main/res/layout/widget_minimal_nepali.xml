@@ -20,7 +20,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:textColor="#fff"
-            android:textSize="48sp"
+            android:textSize="36sp"
             android:text="Day"/>
 
         <LinearLayout

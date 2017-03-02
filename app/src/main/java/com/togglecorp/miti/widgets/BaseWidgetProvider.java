@@ -34,8 +34,8 @@ public class BaseWidgetProvider extends AppWidgetProvider {
             setAlarm(context);
 
             // Register an onClickListener to launch MainActivity
-            Intent intent1 = new Intent(context, MainActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent1,
+            Intent startActivityIntent = new Intent(context, MainActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, startActivityIntent,
                     PendingIntent.FLAG_UPDATE_CURRENT);
             remoteViews.setOnClickPendingIntent(R.id.widget, pendingIntent);
 

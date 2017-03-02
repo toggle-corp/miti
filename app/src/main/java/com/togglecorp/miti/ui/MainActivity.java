@@ -133,8 +133,16 @@ public class MainActivity extends AppCompatActivity {
         String theme = PreferenceManager.getDefaultSharedPreferences(this).getString(SettingsActivity.KEY_PREF_THEME, "Purple");;
         if (!mCurrentTheme.equals(theme)) {
             mCurrentTheme = theme;
-            finish();
             startActivity(new Intent(this, MainActivity.class));
+            finish();
+            return;
+        }
+
+        if (getIntent().getIntExtra("day", -1) != -1) {
+            Date date = new Date(Calendar.getInstance()).convertToNepali();
+            date.day = getIntent().getIntExtra("day", date.day);
+            selectDate(date);
+            getIntent().removeExtra("day");
         }
     }
 
