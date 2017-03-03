@@ -136,7 +136,7 @@ public class TithiListAdapter extends RecyclerView.Adapter<TithiListAdapter.View
 
         if (((MainActivity)mActivity).getSelectedDate().equals(new Date(mYear, mMonth, mDays.get(position)))) {
             holder.circle.setVisibility(View.VISIBLE);
-            holder.circle.setColorFilter(ThemeUtils.getThemeColor(mActivity, R.attr.colorPrimary));
+            holder.circle.setColorFilter(ThemeUtils.getThemeColor(mActivity, R.attr.colorSelection));
         }
 
         holder.root.setOnClickListener(new View.OnClickListener() {

@@ -71,7 +71,7 @@ public class DaysGridAdapter extends RecyclerView.Adapter<DaysGridAdapter.ViewHo
             // Selected
             if (nepaliDate.equals(((MainActivity)mActivity).getSelectedDate())) {
                 holder.circle.setVisibility(View.VISIBLE);
-                holder.circle.setColorFilter(ThemeUtils.getThemeColor(mActivity, R.attr.colorPrimary));
+                holder.circle.setColorFilter(ThemeUtils.getThemeColor(mActivity, R.attr.colorSelection));
             }
 
         } else {
@@ -81,7 +81,7 @@ public class DaysGridAdapter extends RecyclerView.Adapter<DaysGridAdapter.ViewHo
 
         // Satuday
         if (position%7 == 6) {
-            holder.textView.setTextColor(ThemeUtils.getThemeColor(mActivity, R.attr.colorPrimary));
+            holder.textView.setTextColor(ThemeUtils.getThemeColor(mActivity, R.attr.colorHoliday));
         } else {
             holder.textView.setTextColor(ThemeUtils.getThemeColor(mActivity, android.R.attr.textColor));
         }

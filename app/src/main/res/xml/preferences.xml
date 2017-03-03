@@ -6,7 +6,7 @@
 
         <CheckBoxPreference
             android:key="pref_show_daily_notification"
-            android:title="Show daily date notification"
+            android:title="Show date in notification area"
             android:defaultValue="false"/>
 
     </PreferenceCategory>

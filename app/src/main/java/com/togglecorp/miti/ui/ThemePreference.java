@@ -1,7 +1,9 @@
 package com.togglecorp.miti.ui;
 
 import android.content.Context;
+import android.graphics.drawable.GradientDrawable;
 import android.preference.Preference;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,8 +26,15 @@ public class ThemePreference extends Preference implements View.OnClickListener 
         View view = inflator.inflate(R.layout.preference_theme, parent, false);
 
         view.findViewById(R.id.theme_purple).setOnClickListener(this);
+        ((GradientDrawable)view.findViewById(R.id.theme_purple).getBackground()).setColor(ContextCompat.getColor(parent.getContext(), R.color.colorPrimaryPurple));
         view.findViewById(R.id.theme_green).setOnClickListener(this);
+        ((GradientDrawable)view.findViewById(R.id.theme_green).getBackground()).setColor(ContextCompat.getColor(parent.getContext(), R.color.colorPrimaryGreen));
         view.findViewById(R.id.theme_red).setOnClickListener(this);
+        ((GradientDrawable)view.findViewById(R.id.theme_red).getBackground()).setColor(ContextCompat.getColor(parent.getContext(), R.color.colorPrimaryRed));
+        view.findViewById(R.id.theme_black).setOnClickListener(this);
+        ((GradientDrawable)view.findViewById(R.id.theme_black).getBackground()).setColor(ContextCompat.getColor(parent.getContext(), R.color.colorPrimaryDarkBlack));
+        view.findViewById(R.id.theme_white).setOnClickListener(this);
+        ((GradientDrawable)view.findViewById(R.id.theme_white).getBackground()).setColor(ContextCompat.getColor(parent.getContext(), R.color.colorPrimaryWhite));
 
         return view;
     }
@@ -52,6 +61,12 @@ public class ThemePreference extends Preference implements View.OnClickListener 
                 break;
             case R.id.theme_red:
                 persistString("Red");
+                break;
+            case R.id.theme_black:
+                persistString("Black");
+                break;
+            case R.id.theme_white:
+                persistString("White");
                 break;
         }
     }

@@ -69,6 +69,14 @@ public class ThemeUtils {
             case "Red":
                 activity.setTheme(R.style.RedTheme);
                 break;
+            case "Black":
+                activity.setTheme(R.style.BlackTheme);
+                break;
+            case "White":
+                activity.setTheme(R.style.WhiteTheme);
+                break;
+            default:
+                activity.setTheme(R.style.PurpleTheme);
         }
     }
 }

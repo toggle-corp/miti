@@ -4,24 +4,61 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColor">@color/colorPrimaryText</item>
         <item name="android:textColorSecondary">@color/colorSecondaryText</item>
+        <item name="android:colorBackground">@android:color/background_light</item>
     </style>
 
     <style name="PurpleTheme" parent="AppTheme">
         <item name="colorPrimary">@color/colorPrimaryPurple</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkPurple</item>
         <item name="colorAccent">@color/colorAccentPurple</item>
+
+        <item name="colorSelection">@color/colorPrimaryPurple</item>
+        <item name="colorSelectionDark">@color/colorPrimaryDarkPurple</item>
+        <item name="colorHoliday">@color/colorPrimaryPurple</item>
     </style>
 
     <style name="GreenTheme" parent="AppTheme">
         <item name="colorPrimary">@color/colorPrimaryGreen</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkGreen</item>
         <item name="colorAccent">@color/colorAccentGreen</item>
+
+        <item name="colorSelection">@color/colorPrimaryGreen</item>
+        <item name="colorSelectionDark">@color/colorPrimaryDarkGreen</item>
+        <item name="colorHoliday">@color/colorPrimaryGreen</item>
     </style>
 
     <style name="RedTheme" parent="AppTheme">
         <item name="colorPrimary">@color/colorPrimaryRed</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkRed</item>
         <item name="colorAccent">@color/colorAccentRed</item>
+
+        <item name="colorSelection">@color/colorPrimaryRed</item>
+        <item name="colorSelectionDark">@color/colorPrimaryDarkRed</item>
+        <item name="colorHoliday">@color/colorPrimaryRed</item>
+    </style>
+
+    <style name="WhiteTheme" parent="AppTheme">
+        <item name="colorPrimary">@color/colorPrimaryWhite</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkWhite</item>
+        <item name="colorAccent">@color/colorAccentWhite</item>
+
+        <item name="colorSelection">@color/colorPrimaryWhite</item>
+        <item name="colorSelectionDark">@color/colorPrimaryDarkWhite</item>
+        <item name="colorHoliday">@color/colorPrimaryWhite</item>
+    </style>
+
+    <style name="BlackTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimaryBlack</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkBlack</item>
+        <item name="colorAccent">@color/colorAccentBlack</item>
+
+        <item name="colorSelection">#717171</item>
+        <item name="colorSelectionDark">#606060</item>
+        <item name="colorHoliday">@android:color/darker_gray</item>
+
+        <item name="android:windowBackground">@color/colorPrimaryBlack</item>
+        <item name="android:colorBackground">@color/colorPrimaryBlack</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
 </resources>

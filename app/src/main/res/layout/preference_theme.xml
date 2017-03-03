@@ -32,8 +32,7 @@
             android:layout_height="32dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:background="@color/colorPrimaryRed"
-            android:foreground="?attr/selectableItemBackgroundBorderless"/>
+            android:background="@drawable/oval"/>
 
         <View
             android:id="@+id/theme_green"
@@ -41,16 +40,31 @@
             android:layout_height="32dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:foreground="@color/colorPrimaryGreen"/>
+            android:background="@drawable/oval"/>
+
         <View
             android:id="@+id/theme_purple"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:foreground="@color/colorPrimaryPurple"/>
+            android:background="@drawable/oval"/>
+
+        <View
+            android:id="@+id/theme_black"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/oval"/>
+
+        <View
+            android:id="@+id/theme_white"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/oval"/>
     </LinearLayout>
 
 </LinearLayout>

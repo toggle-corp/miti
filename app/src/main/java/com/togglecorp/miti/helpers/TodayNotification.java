@@ -41,6 +41,7 @@ public class TodayNotification {
                         .setContentTitle(title)
                         .setContentText(body)
                         .setVisibility(Notification.VISIBILITY_PUBLIC)
+                        .setShowWhen(false)
                         .setOngoing(true);
         Intent resultIntent = new Intent(context, MainActivity.class);
 
