@@ -7,7 +7,7 @@ import com.togglecorp.miti.R;
 import com.togglecorp.miti.dateutils.Date;
 import com.togglecorp.miti.dateutils.DateUtils;
 import com.togglecorp.miti.dateutils.MitiDb;
-import com.togglecorp.miti.dateutils.NepaliTranslator;
+import com.togglecorp.miti.dateutils.Translator;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -25,9 +25,9 @@ public class NepaliEnglishMinimalWidgetProvider extends BaseWidgetProvider {
         Date nepaliNow = new Date(Calendar.getInstance()).convertToNepali();
         MitiDb.DateItem dateItem = new MitiDb(context).get(nepaliNow);
 
-        remoteViews.setTextViewText(R.id.nepali_year, NepaliTranslator.getNumber(nepaliNow.year+""));
-        remoteViews.setTextViewText(R.id.nepali_month, NepaliTranslator.getMonth(nepaliNow.month));
-        remoteViews.setTextViewText(R.id.nepali_day, NepaliTranslator.getNumber(nepaliNow.day+""));
+        remoteViews.setTextViewText(R.id.nepali_year, Translator.getNumber(nepaliNow.year+""));
+        remoteViews.setTextViewText(R.id.nepali_month, Translator.getMonth(nepaliNow.month));
+        remoteViews.setTextViewText(R.id.nepali_day, Translator.getNumber(nepaliNow.day+""));
         remoteViews.setTextViewText(R.id.tithi, dateItem.tithi);
 
         // English

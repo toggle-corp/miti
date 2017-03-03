@@ -6,13 +6,12 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.NumberPicker;
 
 import com.togglecorp.miti.R;
 import com.togglecorp.miti.dateutils.DateUtils;
-import com.togglecorp.miti.dateutils.NepaliTranslator;
+import com.togglecorp.miti.dateutils.Translator;
 
 
 @SuppressLint("ValidFragment")
@@ -57,12 +56,12 @@ public class YearMonthPicker extends DialogFragment {
                     }
                 });
 
-        // Years and months strings
+        // Years and MONTHS_NEPALI strings
         String[] years = new String[DateUtils.getNumYears()];
         for (int i=0; i<years.length; i++) {
-            years[i] = NepaliTranslator.getNumber((DateUtils.startNepaliYear + i)+"");
+            years[i] = Translator.getNumber((DateUtils.startNepaliYear + i)+"");
         }
-        String[] months = NepaliTranslator.months;
+        String[] months = Translator.MONTHS_NEPALI;
 
         yearPicker.setMinValue(DateUtils.startNepaliYear);
         yearPicker.setMaxValue(DateUtils.startNepaliYear + DateUtils.getNumYears()-1);

@@ -1,7 +1,6 @@
 package com.togglecorp.miti.widgets;
 
 
-import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
@@ -12,8 +11,7 @@ import android.widget.RemoteViewsService;
 import com.togglecorp.miti.R;
 import com.togglecorp.miti.dateutils.Date;
 import com.togglecorp.miti.dateutils.DateUtils;
-import com.togglecorp.miti.dateutils.NepaliTranslator;
-import com.togglecorp.miti.ui.MainActivity;
+import com.togglecorp.miti.dateutils.Translator;
 
 import java.util.Calendar;
 
@@ -65,14 +63,19 @@ public class GridWidgetService extends RemoteViewsService {
             RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.layout_month_widget_item);
 
             if (position < 7) {
-                rv.setTextViewText(R.id.day, NepaliTranslator.getShortDay(position));
+                rv.setTextViewText(R.id.day_header, Translator.getShortDay(position));
+                rv.setViewVisibility(R.id.day, View.GONE);
+                rv.setViewVisibility(R.id.day_header, View.VISIBLE);
                 rv.setViewVisibility(R.id.circle, View.GONE);
+//                rv.setViewVisibility(R.id.divider, View.VISIBLE);
             }
             else {
+                rv.setViewVisibility(R.id.day, View.VISIBLE);
+                rv.setViewVisibility(R.id.day_header, View.GONE);
 
                 if (position >= mExtraDays) {
                     int dt = position + 1 - mExtraDays;
-                    rv.setTextViewText(R.id.day, NepaliTranslator.getNumber(dt+""));
+                    rv.setTextViewText(R.id.day, Translator.getNumber(dt+""));
 
                 } else {
                     rv.setTextViewText(R.id.day, "");
@@ -83,6 +86,7 @@ public class GridWidgetService extends RemoteViewsService {
                 } else {
                     rv.setViewVisibility(R.id.circle, View.GONE);
                 }
+//                rv.setViewVisibility(R.id.divider, View.GONE);
             }
 
             Intent fillInIntent = new Intent();

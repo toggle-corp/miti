@@ -18,7 +18,7 @@ public class DateUtils {
      * Date Database useful for converting from/to Nepali/English dates.
      *
      * Basically, this is an array of arrays. Each sub-array represents a year.
-     * Each year contains number of days in each month as array of integers.
+     * Each year contains number of DAYS_NEPALI in each month as array of integers.
      */
     public final static int[][] data = new int[][] {
         new int[] {30, 32, 31, 32, 31, 30, 30, 30, 29, 30, 29, 31},
@@ -115,7 +115,7 @@ public class DateUtils {
     };
 
     /**
-     * Get {@return number of days} in given {@param year} and {@param month}.
+     * Get {@return number of DAYS_NEPALI} in given {@param year} and {@param month}.
      */
     public static int getNumDays(int year, int month) {
         return data[year-startNepaliYear][month-1];

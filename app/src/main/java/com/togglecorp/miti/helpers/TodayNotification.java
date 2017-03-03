@@ -1,5 +1,6 @@
 package com.togglecorp.miti.helpers;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -8,10 +9,9 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
-import android.util.Pair;
 
 import com.togglecorp.miti.dateutils.Date;
-import com.togglecorp.miti.dateutils.NepaliTranslator;
+import com.togglecorp.miti.dateutils.Translator;
 import com.togglecorp.miti.dateutils.MitiDb;
 import com.togglecorp.miti.ui.MainActivity;
 import com.togglecorp.miti.ui.SettingsActivity;
@@ -25,9 +25,9 @@ public class TodayNotification {
         Date today = new Date(Calendar.getInstance()).convertToNepali();
 
         // First create title and body of notification
-        String title = NepaliTranslator.getNumber(today.day+" ")
-                + NepaliTranslator.getMonth(today.month) + ", "
-                + NepaliTranslator.getNumber(today.year+"");
+        String title = Translator.getNumber(today.day+" ")
+                + Translator.getMonth(today.month) + ", "
+                + Translator.getNumber(today.year+"");
         String body = "";
         MitiDb.DateItem dateItem = new MitiDb(context).get(today.toString());
         if (dateItem != null) {
@@ -40,6 +40,7 @@ public class TodayNotification {
                         .setSmallIcon(ThemeUtils.DATE_ICONS[today.day-1])
                         .setContentTitle(title)
                         .setContentText(body)
+                        .setVisibility(Notification.VISIBILITY_PUBLIC)
                         .setOngoing(true);
         Intent resultIntent = new Intent(context, MainActivity.class);
 

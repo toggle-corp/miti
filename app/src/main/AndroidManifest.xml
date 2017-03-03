@@ -21,6 +21,14 @@
 
 
         <!-- Widgets -->
+        <receiver android:name=".widgets.SingleCellWidgetProvider" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/widget_single_cell_provider_info" />
+        </receiver>
+
         <receiver android:name=".widgets.NepaliMinimalWidgetProvider" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

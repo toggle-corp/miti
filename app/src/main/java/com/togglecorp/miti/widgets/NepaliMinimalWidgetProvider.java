@@ -7,7 +7,7 @@ import android.widget.RemoteViews;
 import com.togglecorp.miti.R;
 import com.togglecorp.miti.dateutils.Date;
 import com.togglecorp.miti.dateutils.MitiDb;
-import com.togglecorp.miti.dateutils.NepaliTranslator;
+import com.togglecorp.miti.dateutils.Translator;
 
 import java.util.Calendar;
 
@@ -23,9 +23,9 @@ public class NepaliMinimalWidgetProvider extends BaseWidgetProvider {
         Date now = new Date(Calendar.getInstance()).convertToNepali();
         MitiDb.DateItem dateItem = new MitiDb(context).get(now);
 
-        remoteViews.setTextViewText(R.id.year, NepaliTranslator.getNumber(now.year+""));
-        remoteViews.setTextViewText(R.id.month, NepaliTranslator.getMonth(now.month));
-        remoteViews.setTextViewText(R.id.day, NepaliTranslator.getNumber(now.day+""));
+        remoteViews.setTextViewText(R.id.year, Translator.getNumber(now.year+""));
+        remoteViews.setTextViewText(R.id.month, Translator.getMonth(now.month));
+        remoteViews.setTextViewText(R.id.day, Translator.getNumber(now.day+""));
 
         remoteViews.setTextViewText(R.id.tithi, dateItem.tithi);
         remoteViews.setTextViewText(R.id.extra, dateItem.extra);

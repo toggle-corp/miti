@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.togglecorp.miti.R;
 import com.togglecorp.miti.dateutils.Date;
 import com.togglecorp.miti.dateutils.DateUtils;
-import com.togglecorp.miti.dateutils.NepaliTranslator;
+import com.togglecorp.miti.dateutils.Translator;
 import com.togglecorp.miti.helpers.ThemeUtils;
 import com.togglecorp.miti.ui.MainActivity;
 
@@ -61,11 +61,11 @@ public class DaysGridAdapter extends RecyclerView.Adapter<DaysGridAdapter.ViewHo
             holder.circle.setVisibility(View.GONE);
         }
 
-        // Fill in after the extra days
+        // Fill in after the extra DAYS_NEPALI
         if (position >= mExtraDays) {
             int dt = position + 1 - mExtraDays;
             Date nepaliDate = new Date(mDate.year, mDate.month, dt);
-            holder.textView.setText(NepaliTranslator.getNumber(dt+""));
+            holder.textView.setText(Translator.getNumber(dt+""));
             holder.textView2.setText(nepaliDate.convertToEnglish().day + "");
 
             // Selected

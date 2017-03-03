@@ -4,12 +4,11 @@ import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.widget.RemoteViews;
 
 import com.togglecorp.miti.R;
 import com.togglecorp.miti.dateutils.Date;
-import com.togglecorp.miti.dateutils.NepaliTranslator;
+import com.togglecorp.miti.dateutils.Translator;
 import com.togglecorp.miti.ui.MainActivity;
 
 import java.util.Calendar;
@@ -23,8 +22,8 @@ public class MonthWidgetProvider extends BaseWidgetProvider {
     @Override
     protected void updateWidget(int appWidgetId, Context context, RemoteViews remoteViews) {
         Date today = new Date(Calendar.getInstance()).convertToNepali();
-        String title = NepaliTranslator.getNumber(today.year + "") + " "
-                + NepaliTranslator.getMonth(today.month);
+        String title = Translator.getNumber(today.year + "") + " "
+                + Translator.getMonth(today.month);
         remoteViews.setTextViewText(R.id.title, title);
 
         Intent intent = new Intent(context, GridWidgetService.class);

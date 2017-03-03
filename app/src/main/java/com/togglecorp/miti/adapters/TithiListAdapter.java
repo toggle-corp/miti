@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.togglecorp.miti.R;
 import com.togglecorp.miti.dateutils.Date;
-import com.togglecorp.miti.dateutils.NepaliTranslator;
+import com.togglecorp.miti.dateutils.Translator;
 import com.togglecorp.miti.dateutils.MitiDb;
 import com.togglecorp.miti.helpers.ThemeUtils;
 import com.togglecorp.miti.ui.MainActivity;
@@ -117,7 +117,7 @@ public class TithiListAdapter extends RecyclerView.Adapter<TithiListAdapter.View
 
         MitiDb.DateItem item = mDateItems.get(position);
 
-        holder.day.setText(NepaliTranslator.getNumber(mDays.get(position).toString()));
+        holder.day.setText(Translator.getNumber(mDays.get(position).toString()));
         holder.tithi.setText(item.tithi);
         holder.extra.setText(item.extra);
 

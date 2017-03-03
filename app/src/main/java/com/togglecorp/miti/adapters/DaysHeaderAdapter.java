@@ -8,8 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.togglecorp.miti.R;
-import com.togglecorp.miti.dateutils.NepaliTranslator;
-import com.togglecorp.miti.helpers.ThemeUtils;
+import com.togglecorp.miti.dateutils.Translator;
 
 public class DaysHeaderAdapter extends RecyclerView.Adapter<DaysHeaderAdapter.ViewHolder> {
 
@@ -27,7 +26,7 @@ public class DaysHeaderAdapter extends RecyclerView.Adapter<DaysHeaderAdapter.Vi
 
     @Override
     public void onBindViewHolder(DaysHeaderAdapter.ViewHolder holder, int position) {
-        holder.textView.setText(NepaliTranslator.getShortDay(position));
+        holder.textView.setText(Translator.getShortDay(position));
 
         if (position == 6) {
 //            holder.textView.setTextColor(ThemeUtils.getThemeColor(mContext, R.attr.colorPrimary));

@@ -23,7 +23,7 @@ import com.togglecorp.miti.adapters.MonthPagerAdapter;
 import com.togglecorp.miti.adapters.TithiListAdapter;
 import com.togglecorp.miti.dateutils.Date;
 import com.togglecorp.miti.dateutils.DateUtils;
-import com.togglecorp.miti.dateutils.NepaliTranslator;
+import com.togglecorp.miti.dateutils.Translator;
 import com.togglecorp.miti.dateutils.MitiDb;
 import com.togglecorp.miti.dateutils.TithiGrabber;
 import com.togglecorp.miti.helpers.DailyBroadcastReceiver;
@@ -168,8 +168,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
             // Month titles
-            String nepali = NepaliTranslator.getNumber(year + "") + " "
-                    + NepaliTranslator.getMonth(month);
+            String nepali = Translator.getNumber(year + "") + " "
+                    + Translator.getMonth(month);
 
             Date eDate1 = new Date(year, month, 1).convertToEnglish();
             Date eDate2 = new Date(year, month, 26).convertToEnglish();
@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
             Date today = new Date(Calendar.getInstance()).convertToNepali();
             ((ImageButton)findViewById(R.id.today))
                     .setImageDrawable(ContextCompat.getDrawable(MainActivity.this, ThemeUtils.DATE_ICONS[today.day-1]));
-//            ((TextView)findViewById(R.id.today)).setText(NepaliTranslator.getNumber(today.day+""));
+//            ((TextView)findViewById(R.id.today)).setText(Translator.getNumber(today.day+""));
 
             mCurrentYear = year;
             mCurrentMonth = month;
@@ -259,9 +259,9 @@ public class MainActivity extends AppCompatActivity {
 
         mSelectedDate = date;
         if (date != null) {
-            ((TextView)findViewById(R.id.tithi_day)).setText(NepaliTranslator.getNumber(date.day+""));
-            ((TextView)findViewById(R.id.tithi_month)).setText(NepaliTranslator.getMonth(date.month));
-            ((TextView)findViewById(R.id.tithi_year)).setText(NepaliTranslator.getNumber(date.year + ""));
+            ((TextView)findViewById(R.id.tithi_day)).setText(Translator.getNumber(date.day+""));
+            ((TextView)findViewById(R.id.tithi_month)).setText(Translator.getMonth(date.month));
+            ((TextView)findViewById(R.id.tithi_year)).setText(Translator.getNumber(date.year + ""));
 
             MitiDb.DateItem dateItem = new MitiDb(this).get(date);
 

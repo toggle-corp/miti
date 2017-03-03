@@ -6,7 +6,7 @@ import java.util.GregorianCalendar;
 /**
  * Simple Date class to store the tuple (year, month, day).
  *
- * Days and months start at index 1. So sunday is 1, Baisakh is 1 and January is 1.
+ * Days and MONTHS_NEPALI start at index 1. So sunday is 1, Baisakh is 1 and January is 1.
  */
 public class Date {
 
@@ -67,9 +67,9 @@ public class Date {
     public Date convertToEnglish() { return DateUtils.getEnglishDate(this); }
 
     /**
-     * Get the number of days from this date to a new date.
-     * @param newDate Last date till which number of days is calculated.
-     * @return (this - newDate) as number of days
+     * Get the number of DAYS_NEPALI from this date to a new date.
+     * @param newDate Last date till which number of DAYS_NEPALI is calculated.
+     * @return (this - newDate) as number of DAYS_NEPALI
      */
     public int getDaysTill(Date newDate) {
         return getJulianDay(newDate.year, newDate.month, newDate.day) - getJulianDay(year, month, day);
