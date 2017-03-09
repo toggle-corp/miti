@@ -9,7 +9,9 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.widget.RemoteViews;
 
+import com.togglecorp.miti.R;
 import com.togglecorp.miti.dateutils.Date;
 import com.togglecorp.miti.dateutils.Translator;
 import com.togglecorp.miti.dateutils.MitiDb;
@@ -38,12 +40,18 @@ public class TodayNotification {
         boolean shownInLockScreen = PreferenceManager.getDefaultSharedPreferences(context)
                 .getBoolean(SettingsActivity.KEY_PREF_SHOW_NOTIFICATION_IN_LOCK_SCREEN, true);
 
+
+        // Custom layout
+        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.layout_notification);
+        remoteViews.setTextViewText(R.id.title, title);
+        remoteViews.setTextViewText(R.id.subtitle, body);
+        remoteViews.setImageViewResource(R.id.icon, ThemeUtils.DATE_ICONS[today.day-1]);
+
         // Build a notification
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(ThemeUtils.DATE_ICONS[today.day-1])
-                        .setContentTitle(title)
-                        .setContentText(body)
+                        .setContent(remoteViews)
                         .setVisibility(shownInLockScreen?Notification.VISIBILITY_PUBLIC:Notification.VISIBILITY_SECRET)
                         .setShowWhen(false)
                         .setOngoing(true);

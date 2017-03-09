@@ -43,7 +43,11 @@
 
         <Preference
             android:title="Developed by"
-            android:summary="Togglecorp"/>
+            android:summary="Togglecorp">
+
+            <intent android:action="android.intent.action.VIEW"
+                android:data="http://togglecorp.com" />
+        </Preference>
 
     </PreferenceCategory>
 </PreferenceScreen>
