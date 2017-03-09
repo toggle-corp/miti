@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private TithiListAdapter mTithiListAdapter;
 
     private int mCurrentYear, mCurrentMonth;
+    private boolean mRefreshPending = false;
 
     private String mCurrentTheme;
 
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                             if (mMonthPagerAdapter != null) {
                                 mMonthPagerAdapter.notifyDataSetChanged();
                             }
-                            selectDate(mSelectedDate);
+                            selectDate(mSelectedDate, true);
                         } catch (Exception ignored) {}
                     }
                 });
@@ -99,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // By default select today
-        selectDate(new Date(Calendar.getInstance()).convertToNepali());
+        selectDate(new Date(Calendar.getInstance()).convertToNepali(), true);
 
 
         setupBottomSheet();
@@ -141,9 +142,12 @@ public class MainActivity extends AppCompatActivity {
         if (getIntent().getIntExtra("day", -1) != -1) {
             Date date = new Date(Calendar.getInstance()).convertToNepali();
             date.day = getIntent().getIntExtra("day", date.day);
-            selectDate(date);
+            selectDate(date, true);
             getIntent().removeExtra("day");
+        } else {
+            selectDate(mSelectedDate, true);
         }
+        refreshFontSize();
     }
 
     @Override
@@ -190,6 +194,11 @@ public class MainActivity extends AppCompatActivity {
 
             mCurrentYear = year;
             mCurrentMonth = month;
+
+            if (mRefreshPending) {
+                mMonthPagerAdapter.notifyDataSetChanged();
+                mRefreshPending = false;
+            }
         }
 
         @Override
@@ -251,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
         return mSelectedDate;
     }
 
-    public void selectDate(Date date) {
+    public void selectDate(Date date, boolean refreshFragments) {
 
         if (mTithiListAdapter == null) {
             return;
@@ -285,18 +294,35 @@ public class MainActivity extends AppCompatActivity {
             findViewById(R.id.tithi_header).setVisibility(View.GONE);
         }
 
-        mMonthPagerAdapter.notifyDataSetChanged();
+        if (refreshFragments) {
+            mMonthPagerAdapter.notifyDataSetChanged();
+            mRefreshPending = false;
+        } else {
+            mRefreshPending = true;
+        }
+
         for (int i=0; i<mTithiListAdapter.getItemCount(); i++) {
             mTithiListAdapter.notifyItemChanged(i);
         }
 //        mTithiListAdapter.notifyDataSetChanged();
     }
 
+    public void refreshFontSize() {
+        ((TextView)findViewById(R.id.tithi)).setTextSize(ThemeUtils.getFontSize(this, new float[]{10, 12, 14}));
+        ((TextView)findViewById(R.id.tithi_extra)).setTextSize(ThemeUtils.getFontSize(this, new float[]{10, 12, 14}));
+//        findViewById(R.id.tithi_header).setPadding();
+    }
+
     public void scrollToToday() {
         Date today = new Date(Calendar.getInstance()).convertToNepali();
-        mMonthPager.setCurrentItem(
-                (today.year - DateUtils.startNepaliYear) * 12 + (today.month - 1), true
-        );
+        if (today.year == mCurrentYear && today.month == mCurrentMonth) {
+            selectDate(today, true);
+        } else {
+            mMonthPager.setCurrentItem(
+                    (today.year - DateUtils.startNepaliYear) * 12 + (today.month - 1), true
+            );
+            mSelectedDate = today;
+        }
     }
 
     public int dpToPixels(int dp) {

@@ -16,7 +16,9 @@ import com.togglecorp.miti.helpers.TodayNotification;
 
 public class SettingsActivity extends AppCompatActivity {
     public static final String KEY_PREF_SHOW_DAILY_NOTIFICATION = "pref_show_daily_notification";
+    public static final String KEY_PREF_SHOW_NOTIFICATION_IN_LOCK_SCREEN = "pref_show_notification_in_lock_screen";
     public static final String KEY_PREF_THEME = "pref_theme";
+    public static final String KEY_PREF_FONT_SIZE = "pref_font_size";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +76,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-            if (key.equals(KEY_PREF_SHOW_DAILY_NOTIFICATION)) {
+            if (key.equals(KEY_PREF_SHOW_DAILY_NOTIFICATION) || key.equals(KEY_PREF_SHOW_NOTIFICATION_IN_LOCK_SCREEN)) {
                 DailyBroadcastReceiver.setupAlarm(getActivity());
             }
             else if (key.equals(KEY_PREF_THEME)) {

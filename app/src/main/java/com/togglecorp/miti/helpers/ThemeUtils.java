@@ -79,4 +79,9 @@ public class ThemeUtils {
                 activity.setTheme(R.style.PurpleTheme);
         }
     }
+
+    public static float getFontSize(Context context, float[] options) {
+        return options[Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context)
+                .getString("pref_font_size", "0"))];
+    }
 }

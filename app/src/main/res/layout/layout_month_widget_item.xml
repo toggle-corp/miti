@@ -6,19 +6,19 @@
     android:paddingBottom="8dp"
     android:gravity="center">
 
-    <!--<ImageView-->
-        <!--android:id="@+id/circle"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:padding="2dp"-->
-        <!--android:src="@drawable/circle_mark" />-->
+    <ImageView
+        android:id="@+id/circle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/circle_mark"/>
 
     <TextView
         android:id="@+id/day_header"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:background="#e6ffffff"/>
+        android:background="#e6ffffff"
+        android:textColor="@color/colorPrimaryText"/>
 
     <TextView
         android:id="@+id/day"

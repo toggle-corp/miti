@@ -4,6 +4,7 @@ package com.togglecorp.miti.widgets;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
@@ -11,9 +12,12 @@ import android.widget.RemoteViewsService;
 import com.togglecorp.miti.R;
 import com.togglecorp.miti.dateutils.Date;
 import com.togglecorp.miti.dateutils.DateUtils;
+import com.togglecorp.miti.dateutils.MitiDb;
 import com.togglecorp.miti.dateutils.Translator;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class GridWidgetService extends RemoteViewsService {
 
@@ -29,6 +33,10 @@ public class GridWidgetService extends RemoteViewsService {
         private int mExtraDays;
         private Date mToday;
 
+        private MitiDb mMitiDb;
+        private List<Integer> mDays = new ArrayList<>();
+        private List<MitiDb.DateItem> mDateItems = new ArrayList<>();
+
         public GridWidgetFactory(Context context, Intent intent) {
             mContext = context;
             mAppWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
@@ -37,15 +45,28 @@ public class GridWidgetService extends RemoteViewsService {
 
         @Override
         public void onCreate() {
-            mToday = new Date(Calendar.getInstance()).convertToNepali();
-            Date temp = new Date(mToday.year, mToday.month, 1);
-            Calendar engCalendar = temp.convertToEnglish().getCalendar();
-            mExtraDays = engCalendar.get(Calendar.DAY_OF_WEEK)-1 + 7;
+            mMitiDb = new MitiDb(mContext);
         }
 
         @Override
         public void onDataSetChanged() {
+            mToday = new Date(Calendar.getInstance()).convertToNepali();
+            Date temp = new Date(mToday.year, mToday.month, 1);
+            Calendar engCalendar = temp.convertToEnglish().getCalendar();
+            mExtraDays = engCalendar.get(Calendar.DAY_OF_WEEK)-1 + 7;
 
+            try {
+                for (int i=1; i<=32; i++) {
+                    MitiDb.DateItem tithi = mMitiDb.get(mToday.year*10000+mToday.month*100+i);
+
+                    if (tithi != null && !(tithi.tithi.equals("") && tithi.extra.equals(""))) {
+                        mDays.add(i);
+                        mDateItems.add(tithi);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
@@ -73,9 +94,18 @@ public class GridWidgetService extends RemoteViewsService {
                 rv.setViewVisibility(R.id.day, View.VISIBLE);
                 rv.setViewVisibility(R.id.day_header, View.GONE);
 
+                boolean holiday = false;
                 if (position >= mExtraDays) {
                     int dt = position + 1 - mExtraDays;
                     rv.setTextViewText(R.id.day, Translator.getNumber(dt+""));
+
+                    // Check if holiday
+                    int index = mDays.indexOf(dt);
+                    if (index >= 0) {
+                        holiday = mDateItems.get(index).holiday;
+                    }
+
+                    rv.setTextColor(R.id.day, ContextCompat.getColor(mContext, holiday?R.color.colorPrimaryDarkRed:android.R.color.white));
 
                 } else {
                     rv.setTextViewText(R.id.day, "");

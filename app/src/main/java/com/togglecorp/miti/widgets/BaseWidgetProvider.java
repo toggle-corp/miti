@@ -30,7 +30,7 @@ public class BaseWidgetProvider extends AppWidgetProvider {
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
                     getWidgetLayout());
 
-            updateWidget(widgetId, context, remoteViews);
+            updateWidget(appWidgetManager, widgetId, context, remoteViews);
             setAlarm(context);
 
             // Register an onClickListener to launch MainActivity
@@ -49,7 +49,7 @@ public class BaseWidgetProvider extends AppWidgetProvider {
         return 0;
     }
 
-    protected void updateWidget(int appWidgetId, Context context, RemoteViews remoteViews) {
+    protected void updateWidget(AppWidgetManager appWidgetManager, int appWidgetId, Context context, RemoteViews remoteViews) {
     }
 
     protected void setAlarm(Context context) {

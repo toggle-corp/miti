@@ -20,7 +20,7 @@ public class MonthWidgetProvider extends BaseWidgetProvider {
     }
 
     @Override
-    protected void updateWidget(int appWidgetId, Context context, RemoteViews remoteViews) {
+    protected void updateWidget(AppWidgetManager appWidgetManager, int appWidgetId, Context context, RemoteViews remoteViews) {
         Date today = new Date(Calendar.getInstance()).convertToNepali();
         String title = Translator.getNumber(today.year + "") + " "
                 + Translator.getMonth(today.month);
@@ -36,5 +36,6 @@ public class MonthWidgetProvider extends BaseWidgetProvider {
                 startActivityIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setPendingIntentTemplate(R.id.grid, startActivityPendingIntent);
 
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.grid);
     }
 }

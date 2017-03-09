@@ -20,8 +20,9 @@ public class ThemePreference extends Preference implements View.OnClickListener 
     }
 
     @Override
-    protected View onCreateView(ViewGroup parent )
-    {
+    protected View onCreateView(ViewGroup parent ) {
+        super.onCreateView(parent);
+
         LayoutInflater inflator = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflator.inflate(R.layout.preference_theme, parent, false);
 

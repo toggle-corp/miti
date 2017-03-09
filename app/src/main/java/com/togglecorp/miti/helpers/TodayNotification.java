@@ -34,13 +34,17 @@ public class TodayNotification {
             body = dateItem.tithi + ((dateItem.extra.length() > 0) ? (", " + dateItem.extra) : "");
         }
 
+        // Show in lock screen?
+        boolean shownInLockScreen = PreferenceManager.getDefaultSharedPreferences(context)
+                .getBoolean(SettingsActivity.KEY_PREF_SHOW_NOTIFICATION_IN_LOCK_SCREEN, true);
+
         // Build a notification
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(ThemeUtils.DATE_ICONS[today.day-1])
                         .setContentTitle(title)
                         .setContentText(body)
-                        .setVisibility(Notification.VISIBILITY_PUBLIC)
+                        .setVisibility(shownInLockScreen?Notification.VISIBILITY_PUBLIC:Notification.VISIBILITY_SECRET)
                         .setShowWhen(false)
                         .setOngoing(true);
         Intent resultIntent = new Intent(context, MainActivity.class);

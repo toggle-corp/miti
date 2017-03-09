@@ -14,7 +14,7 @@
 
         <item name="colorSelection">@color/colorPrimaryPurple</item>
         <item name="colorSelectionDark">@color/colorPrimaryDarkPurple</item>
-        <item name="colorHoliday">@color/colorPrimaryPurple</item>
+        <item name="colorHoliday">@color/colorPrimaryDarkRed</item>
     </style>
 
     <style name="GreenTheme" parent="AppTheme">
@@ -24,7 +24,7 @@
 
         <item name="colorSelection">@color/colorPrimaryGreen</item>
         <item name="colorSelectionDark">@color/colorPrimaryDarkGreen</item>
-        <item name="colorHoliday">@color/colorPrimaryGreen</item>
+        <item name="colorHoliday">@color/colorPrimaryDarkRed</item>
     </style>
 
     <style name="RedTheme" parent="AppTheme">
@@ -34,7 +34,7 @@
 
         <item name="colorSelection">@color/colorPrimaryRed</item>
         <item name="colorSelectionDark">@color/colorPrimaryDarkRed</item>
-        <item name="colorHoliday">@color/colorPrimaryRed</item>
+        <item name="colorHoliday">@color/colorPrimaryDarkRed</item>
     </style>
 
     <style name="WhiteTheme" parent="AppTheme">
@@ -44,7 +44,7 @@
 
         <item name="colorSelection">@color/colorPrimaryWhite</item>
         <item name="colorSelectionDark">@color/colorPrimaryDarkWhite</item>
-        <item name="colorHoliday">@color/colorPrimaryWhite</item>
+        <item name="colorHoliday">@color/colorPrimaryDarkRed</item>
     </style>
 
     <style name="BlackTheme" parent="Theme.AppCompat.NoActionBar">
@@ -54,7 +54,7 @@
 
         <item name="colorSelection">#717171</item>
         <item name="colorSelectionDark">#606060</item>
-        <item name="colorHoliday">@android:color/darker_gray</item>
+        <item name="colorHoliday">#ef5350</item>
 
         <item name="android:windowBackground">@color/colorPrimaryBlack</item>
         <item name="android:colorBackground">@color/colorPrimaryBlack</item>

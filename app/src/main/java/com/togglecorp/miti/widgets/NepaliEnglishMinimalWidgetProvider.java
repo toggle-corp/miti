@@ -1,5 +1,6 @@
 package com.togglecorp.miti.widgets;
 
+import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.widget.RemoteViews;
 
@@ -19,7 +20,7 @@ public class NepaliEnglishMinimalWidgetProvider extends BaseWidgetProvider {
     }
 
     @Override
-    protected void updateWidget(int appWidgetId, Context context, RemoteViews remoteViews) {
+    protected void updateWidget(AppWidgetManager appWidgetManager, int appWidgetId, Context context, RemoteViews remoteViews) {
 
         // Nepali
         Date nepaliNow = new Date(Calendar.getInstance()).convertToNepali();

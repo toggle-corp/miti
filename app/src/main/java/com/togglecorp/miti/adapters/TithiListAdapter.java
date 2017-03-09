@@ -3,6 +3,7 @@ package com.togglecorp.miti.adapters;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -134,15 +135,25 @@ public class TithiListAdapter extends RecyclerView.Adapter<TithiListAdapter.View
             holder.extra.setVisibility(View.VISIBLE);
         }
 
+        if (item.holiday) {
+            holder.day.setTextColor(ThemeUtils.getThemeColor(mActivity, R.attr.colorHoliday));
+        } else {
+            holder.day.setTextColor(ThemeUtils.getThemeColor(mActivity, android.R.attr.textColor));
+        }
+
         if (((MainActivity)mActivity).getSelectedDate().equals(new Date(mYear, mMonth, mDays.get(position)))) {
             holder.circle.setVisibility(View.VISIBLE);
-            holder.circle.setColorFilter(ThemeUtils.getThemeColor(mActivity, R.attr.colorSelection));
+            holder.circle.setColorFilter(ThemeUtils.getThemeColor(mActivity, /*item.holiday?R.attr.colorHoliday:*/R.attr.colorSelection));
         }
+
+        // Font size
+        holder.tithi.setTextSize(TypedValue.COMPLEX_UNIT_SP, ThemeUtils.getFontSize(mActivity, new float[]{10, 12, 14}));
+        holder.extra.setTextSize(TypedValue.COMPLEX_UNIT_SP, ThemeUtils.getFontSize(mActivity, new float[]{10, 12, 14}));
 
         holder.root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            ((MainActivity)mActivity).selectDate(new Date(mYear, mMonth, mDays.get(holder.getAdapterPosition())));
+            ((MainActivity)mActivity).selectDate(new Date(mYear, mMonth, mDays.get(holder.getAdapterPosition())), true);
             }
         });
     }

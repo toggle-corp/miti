@@ -1,16 +1,15 @@
 package com.togglecorp.miti.widgets;
 
+import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.widget.RemoteViews;
 
 import com.togglecorp.miti.R;
 import com.togglecorp.miti.dateutils.Date;
-import com.togglecorp.miti.dateutils.DateUtils;
 import com.togglecorp.miti.dateutils.MitiDb;
 import com.togglecorp.miti.dateutils.Translator;
 
 import java.util.Calendar;
-import java.util.Locale;
 
 public class SingleCellWidgetProvider extends BaseWidgetProvider {
     @Override
@@ -19,7 +18,7 @@ public class SingleCellWidgetProvider extends BaseWidgetProvider {
     }
 
     @Override
-    protected void updateWidget(int appWidgetId, Context context, RemoteViews remoteViews) {
+    protected void updateWidget(AppWidgetManager appWidgetManager, int appWidgetId, Context context, RemoteViews remoteViews) {
 
         // Nepali
         Date nepaliNow = new Date(Calendar.getInstance()).convertToNepali();

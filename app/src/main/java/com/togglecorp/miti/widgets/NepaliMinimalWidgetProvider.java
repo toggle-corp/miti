@@ -1,5 +1,6 @@
 package com.togglecorp.miti.widgets;
 
+import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.view.View;
 import android.widget.RemoteViews;
@@ -19,7 +20,7 @@ public class NepaliMinimalWidgetProvider extends BaseWidgetProvider {
     }
 
     @Override
-    protected void updateWidget(int appWidgetId, Context context, RemoteViews remoteViews) {
+    protected void updateWidget(AppWidgetManager appWidgetManager, int appWidgetId, Context context, RemoteViews remoteViews) {
         Date now = new Date(Calendar.getInstance()).convertToNepali();
         MitiDb.DateItem dateItem = new MitiDb(context).get(now);
 
