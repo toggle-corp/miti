@@ -27,9 +27,9 @@ public class TodayNotification {
         Date today = new Date(Calendar.getInstance()).convertToNepali();
 
         // First create title and body of notification
-        String title = Translator.getNumber(today.day+" ")
-                + Translator.getMonth(today.month) + ", "
-                + Translator.getNumber(today.year+"");
+        String title = Translator.getNumber(today.day+" ") +
+                Translator.getMonth(today.month) + ", " +
+                Translator.getNumber(today.year+"");
         String body = "";
         MitiDb.DateItem dateItem = new MitiDb(context).get(today.toString());
         if (dateItem != null) {

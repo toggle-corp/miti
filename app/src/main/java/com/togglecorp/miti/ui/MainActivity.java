@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean mRefreshPending = false;
 
     private String mCurrentTheme;
+    private String mCurrentFontSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mCurrentTheme = PreferenceManager.getDefaultSharedPreferences(this).getString(SettingsActivity.KEY_PREF_THEME, "Purple");
+        mCurrentFontSize = PreferenceManager.getDefaultSharedPreferences(this).getString(SettingsActivity.KEY_PREF_FONT_SIZE, "0");
 
         DailyBroadcastReceiver.setupAlarm(this);
 
@@ -132,12 +134,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         String theme = PreferenceManager.getDefaultSharedPreferences(this).getString(SettingsActivity.KEY_PREF_THEME, "Purple");;
-        if (!mCurrentTheme.equals(theme)) {
+        String fontSize = PreferenceManager.getDefaultSharedPreferences(this).getString(SettingsActivity.KEY_PREF_FONT_SIZE, "0");;
+
+        if (!mCurrentTheme.equals(theme) || !mCurrentFontSize.equals(fontSize)) {
             mCurrentTheme = theme;
+            mCurrentFontSize = fontSize;
             startActivity(new Intent(this, MainActivity.class));
             finish();
             return;
         }
+
+        refreshFontSize();
 
         if (getIntent().getIntExtra("day", -1) != -1) {
             Date date = new Date(Calendar.getInstance()).convertToNepali();
@@ -147,7 +154,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             selectDate(mSelectedDate, true);
         }
-        refreshFontSize();
     }
 
     @Override

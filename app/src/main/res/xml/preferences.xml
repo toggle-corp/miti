@@ -38,7 +38,7 @@
         android:title="About">
 
         <Preference
-            android:title="Miti"
+            android:title="@string/app_name"
             android:summary="Version 1.0"/>
 
         <Preference

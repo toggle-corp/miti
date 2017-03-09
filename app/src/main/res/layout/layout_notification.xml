@@ -9,7 +9,7 @@
     <ImageButton
         android:id="@+id/icon"
         android:layout_width="wrap_content"
-        android:layout_height="64dp"
+        android:layout_height="56dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:src="@drawable/date_icon_1"
