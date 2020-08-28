@@ -74,6 +74,7 @@ def pull_data_from_month(year, month):
         event = day.find('span', class_='event').text
         event = event if event != '--' else None
         holiday = True if 'holiday' in day.get('class') else False
+        tithi = day.find('span', class_='tithi')
 
         data.append({
             'date': from_date+'/'+map_value(day.find('span',
@@ -82,7 +83,7 @@ def pull_data_from_month(year, month):
                 'event': event,
                 'holiday': holiday,
                 },
-            'tithi': day.find('span', class_='tithi').text,
+            'tithi': tithi.text if tithi else '',
             })
 
     return data
