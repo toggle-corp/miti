@@ -46,7 +46,7 @@ def pull_data_from_month(year, month):
     html_page = requests.get(web_url+str(year)+'/'+str(month)+'/', headers=headers)
     html_page.encoding = 'utf-8'
 
-    if html_page.status_code is not 200:
+    if html_page.status_code != 200:
         print('Internet Error!!')
         return
 
@@ -90,17 +90,15 @@ def pull_data_from_month(year, month):
 
 
 def pull_data(init_year, end_year, dump='dump.json'):
-    data = {}
+    data = []
     for year in range(init_year, end_year+1):
         print('*'*30)
         print('Pulling For Year:', year)
         print('*'*30)
-        year_data = {}
         for month in range(1, 13):
             print('\tPulling For Month:', month)
-            year_data[month] = pull_data_from_month(year, month)
+            data.extend(pull_data_from_month(year, month))
             print('\t'+'-'*25, 'Done', '-'*25)
-        data[year] = year_data
 
     with open(dump, 'w') as file:
         json.dump({
